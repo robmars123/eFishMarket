@@ -1,84 +1,54 @@
-﻿Top-Level Solution Structure
-Example:
-	/ECommerceSolution
-	│
-	├── /src
-	│   ├── /Modules
-	│   │   ├── /ProductCatalog
-	│   │   ├── /Inventory
-	│   │   ├── /Ordering
-	│   │   ├── /Payments
-	│   │   ├── /Customers
-	│   │   ├── /Shipping
-	│   │   ├── /Promotions
-	│   │   └── /Reviews
-	│   │
-	│   ├── /Shared
-	│   │   ├── /Core
-	│   │   ├── /Infrastructure
-	│   │   └── /Common
-	│   │
-	│   ├── /WebApi
-	│   │   ├── Program.cs
-	│   │   ├── AppHost.cs
-	│   │   └── StartupExtensions.cs
-	│   │
-	│   └── /BackgroundJobs
-	│       └── OrderFulfillmentWorker.cs
-	│
-	├── /tests
-	│   ├── /UnitTests
-	│   │   ├── /ProductCatalog.Tests
-	│   │   └── /Ordering.Tests
-	│   └── /IntegrationTests
-	│       └── /Ordering.IntegrationTests
-	│
-	├── /docs
-	│   └── architecture.md
-	│
-	├── /build
-	│   └── ci.yml
-	│
-	└── ECommerceSolution.sln
+﻿Solution Architecture - Modular Monolithic with Clean Architecture
+	src/
+	├── BuildingBlocks/                  # Shared kernel and cross-cutting concerns
+	│   ├── Application/                 # Base interfaces, Result pattern, pagination
+	│   ├── Domain/                      # Base entities, value objects, domain events
+	│   ├── Infrastructure/             # Common infra (e.g., Outbox, Email, Logging)
+	│   └── Web/                         # Shared web components (e.g., filters, middleware)
 
-Module Folder Anatomy
-Example:
-	/ProductCatalog
-	├── /Domain
-	│   ├── Product.cs
-	│   ├── Category.cs
-	│   └── ValueObjects/
+	├── Modules/                         # Feature modules (each is isolated)
+	│   ├── Users/
+	│   │   ├── Application/            # CQRS handlers, DTOs, validators
+	│   │   ├── Domain/                 # Entities, aggregates, value objects
+	│   │   ├── Infrastructure/         # EF Core mappings, repositories
+	│   │   └── Web/                    # API endpoints (minimal APIs or controllers)
 	│
-	├── /Application
-	│   ├── IProductService.cs
-	│   ├── ProductDto.cs
-	│   └── Commands/
+	│   ├── Events/
+	│   │   ├── Application/
+	│   │   ├── Domain/
+	│   │   ├── Infrastructure/
+	│   │   └── Web/
 	│
-	├── /Infrastructure
-	│   ├── ProductRepository.cs
-	│   ├── ProductDbContext.cs
-	│   └── EFConfigurations/
+	│   ├── Followers/
+	│   │   ├── Application/
+	│   │   ├── Domain/
+	│   │   ├── Infrastructure/
+	│   │   └── Web/
 	│
-	├── /Api
-	│   ├── ProductController.cs
-	│   └── ProductEndpoints.cs
-	│
-	└── /Internal
-		├── ProductEvents.cs
-		└── ProductMappings.cs
+	│   └── Notifications/
+	│       ├── Application/
+	│       ├── Domain/
+	│       ├── Infrastructure/
+	│       └── Web/
 
+	├── ApiGateway/                      # Optional: API gateway for routing and composition
+	│   └── Web/
 
-Key Principles
-Modules are isolated: Each domain has its own models, services, and APIs.
+	├── Infrastructure/                 # Global infrastructure (e.g., messaging, persistence)
+	│   ├── Persistence/
+	│   ├── Messaging/
+	│   └── Monitoring/
 
-Shared folder: Contains cross-cutting concerns like logging, validation, and base entities.
+	├── WebApi/                          # Entry point (Program.cs, DI, middleware)
+	│   ├── Program.cs
+	│   ├── Startup.cs (if used)
+	│   └── Configuration/
 
-WebApi: Hosts the composition root and public-facing endpoints.
+	├── Tests/
+	│   ├── Unit/
+	│   ├── Integration/
+	│   └── Architecture/
 
-AppHost.cs: Central orchestration for DI, routing, and module registration.
-
-Tests folder: Organized by module and test type.
-
-Docs folder: Architecture decisions, diagrams, and onboarding notes.
-
-Build folder: CI/CD pipelines and deployment scripts.
+	├── docker-compose.yml              # Local orchestration (Postgres, RabbitMQ, etc.)
+	├── AspireAppHost/                  # Optional: .NET Aspire orchestration
+	└── README.md
