@@ -1235,6 +1235,9 @@
           }
         }
       },
+      "SonarAnalyzer.CSharp/9.24.0.89429": {
+        "type": "package"
+      },
       "StreamJsonRpc/2.22.11": {
         "type": "package",
         "dependencies": {
@@ -3140,6 +3143,26 @@
         "semver.nuspec"
       ]
     },
+    "SonarAnalyzer.CSharp/9.24.0.89429": {
+      "sha512": "Ozk4LVpLNHhd+mmYKiG/WYtUUBZFknpkRy5JwTq4YfmT2wPA16vev5s/42urrN27ZV+01Kb5aYKJt3EI+5jPdw==",
+      "type": "package",
+      "path": "sonaranalyzer.csharp/9.24.0.89429",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/Google.Protobuf.dll",
+        "analyzers/SonarAnalyzer.CFG.dll",
+        "analyzers/SonarAnalyzer.CSharp.dll",
+        "analyzers/SonarAnalyzer.dll",
+        "images/sonarsource_64.png",
+        "license/THIRD-PARTY-NOTICES.txt",
+        "sonaranalyzer.csharp.9.24.0.89429.nupkg.sha512",
+        "sonaranalyzer.csharp.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "StreamJsonRpc/2.22.11": {
       "sha512": "TQcqBFswLNpdSJANjhxZmIIe0Yl0kGqzjZ+uHLdhrkxntofvNu6C53XPEEYQ3Wkj8AorKumkuv/VMvTH4BHOZw==",
       "type": "package",
@@ -3320,7 +3343,8 @@
     "net9.0": [
       "Aspire.Dashboard.Sdk.win-x64 >= 9.5.0",
       "Aspire.Hosting.AppHost >= 9.5.0",
-      "Aspire.Hosting.Orchestration.win-x64 >= 9.5.0"
+      "Aspire.Hosting.Orchestration.win-x64 >= 9.5.0",
+      "SonarAnalyzer.CSharp >= 9.24.0.89429"
     ]
   },
   "packageFolders": {
@@ -3387,6 +3411,12 @@
             "target": "Package",
             "version": "[9.5.0, )",
             "autoReferenced": true
+          },
+          "SonarAnalyzer.CSharp": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[9.24.0.89429, )"
           }
         },
         "imports": [

@@ -1,54 +1,95 @@
 ﻿Solution Architecture - Modular Monolithic with Clean Architecture
-	src/
-	├── BuildingBlocks/                  # Shared kernel and cross-cutting concerns
-	│   ├── Application/                 # Base interfaces, Result pattern, pagination
-	│   ├── Domain/                      # Base entities, value objects, domain events
-	│   ├── Infrastructure/             # Common infra (e.g., Outbox, Email, Logging)
-	│   └── Web/                         # Shared web components (e.g., filters, middleware)
 
-	├── Modules/                         # Feature modules (each is isolated)
-	│   ├── Users/
-	│   │   ├── Application/            # CQRS handlers, DTOs, validators
-	│   │   ├── Domain/                 # Entities, aggregates, value objects
-	│   │   ├── Infrastructure/         # EF Core mappings, repositories
-	│   │   └── Web/                    # API endpoints (minimal APIs or controllers)
-	│
-	│   ├── Events/
-	│   │   ├── Application/
-	│   │   ├── Domain/
-	│   │   ├── Infrastructure/
-	│   │   └── Web/
-	│
-	│   ├── Followers/
-	│   │   ├── Application/
-	│   │   ├── Domain/
-	│   │   ├── Infrastructure/
-	│   │   └── Web/
-	│
-	│   └── Notifications/
-	│       ├── Application/
-	│       ├── Domain/
-	│       ├── Infrastructure/
-	│       └── Web/
+## Folder Structure
 
-	├── ApiGateway/                      # Optional: API gateway for routing and composition
-	│   └── Web/
+├── Modules/
+│   ├── Products/                      # Product metadata, categories, variants
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
 
-	├── Infrastructure/                 # Global infrastructure (e.g., messaging, persistence)
-	│   ├── Persistence/
-	│   ├── Messaging/
-	│   └── Monitoring/
+│   ├── Users/                          # User profiles, roles, preferences
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
+│
+│   ├── Identity/                       # Authentication, authorization, token issuance
+│   │   ├── Application/               # Login, registration, password reset, token commands
+│   │   ├── Domain/                    # IdentityUser, Role, Claims, Policies
+│   │   ├── Infrastructure/            # ASP.NET Identity, EF mappings, token services
+│   │   └── Web/                       # Auth endpoints (login, register, refresh, etc.)
+│
+│   ├── Inventory/                     # Stock levels, availability, warehouses
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
+│
+│   ├── Orders/                        # Cart, checkout, order lifecycle
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
+│
+│   ├── Payments/                      # Payment methods, transactions, refunds
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
+│
+│   ├── Fulfillment/                   # Shipping, delivery, pickup scheduling
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
+│
+│   ├── Notifications/                # Email, SMS, push alerts
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
+│
+│   ├── Reviews/                      # Ratings, feedback, moderation
+│   │   ├── Application/
+│   │   ├── Domain/
+│   │   ├── Infrastructure/
+│   │   └── Web/
+│
+│   └── Carts/                         # Persistent cart, item management, promotions
+│       ├── Application/
+│       ├── Domain/
+│       ├── Infrastructure/
+│       └── Web/
 
-	├── WebApi/                          # Entry point (Program.cs, DI, middleware)
-	│   ├── Program.cs
-	│   ├── Startup.cs (if used)
-	│   └── Configuration/
+├── ApiGateway/                        # Optional: API gateway for routing and composition
+│   └── Web/
 
-	├── Tests/
-	│   ├── Unit/
-	│   ├── Integration/
-	│   └── Architecture/
+├── Infrastructure/                   # Global infrastructure (cross-cutting concerns)
+│   ├── Persistence/                  # Shared EF DbContexts, migrations
+│   ├── Messaging/                    # RabbitMQ, Kafka, etc.
+│   ├── Monitoring/                   # Serilog, OpenTelemetry, health checks
+│   ├── Authentication/              # JWT setup, policies, middleware
+│   └── Security/                     # CORS, rate limiting, headers
 
-	├── docker-compose.yml              # Local orchestration (Postgres, RabbitMQ, etc.)
-	├── AspireAppHost/                  # Optional: .NET Aspire orchestration
-	└── README.md
+├── WebApi/                            # Entry point (Program.cs, DI, middleware)
+│   ├── Program.cs
+│   ├── Startup.cs (if used)
+│   └── Configuration/                # Modular DI, app settings, policies
+
+├── SharedKernel/                      # Optional: common value objects (Money, Email, Address)
+│   ├── Domain/
+│   └── Application/
+
+├── Tests/
+│   ├── Unit/
+│   │   ├── Identity/
+│   │   ├── Orders/
+│   │   └── Products/
+│   ├── Integration/
+│   └── Architecture/
+
+├── AspireAppHost/                     # Optional: .NET Aspire orchestration
+├── docker-compose.yml                 # Local orchestration (Postgres, Redis, RabbitMQ, etc.)
+└── README.md

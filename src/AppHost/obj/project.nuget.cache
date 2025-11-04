@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hcxBMn4GBlI=",
+  "dgSpecHash": "0sD77zxh3mo=",
   "success": true,
   "projectFilePath": "D:\\Projects\\Modular Monolith - Azure\\eFishMarket\\src\\AppHost\\AppHost.csproj",
   "expectedPackageFiles": [
@@ -63,6 +63,7 @@
     "C:\\Users\\Tenten\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Tenten\\.nuget\\packages\\polly.core\\8.6.3\\polly.core.8.6.3.nupkg.sha512",
     "C:\\Users\\Tenten\\.nuget\\packages\\semver\\3.0.0\\semver.3.0.0.nupkg.sha512",
+    "C:\\Users\\Tenten\\.nuget\\packages\\sonaranalyzer.csharp\\9.24.0.89429\\sonaranalyzer.csharp.9.24.0.89429.nupkg.sha512",
     "C:\\Users\\Tenten\\.nuget\\packages\\streamjsonrpc\\2.22.11\\streamjsonrpc.2.22.11.nupkg.sha512",
     "C:\\Users\\Tenten\\.nuget\\packages\\system.diagnostics.eventlog\\9.0.9\\system.diagnostics.eventlog.9.0.9.nupkg.sha512",
     "C:\\Users\\Tenten\\.nuget\\packages\\system.io.hashing\\9.0.8\\system.io.hashing.9.0.8.nupkg.sha512",
