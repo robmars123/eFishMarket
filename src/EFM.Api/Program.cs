@@ -1,44 +1,26 @@
+using EFM.Api.DependencyExtensions;
 using EFM.Modules.Products.Infrastructure;
 
-namespace EFM.Api;
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-internal static class Program
+builder.AddDependencyExtensions();
+
+WebApplication app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    public static void Main(string[] args)
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
     {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-        // Add services to the container.
-
-        builder.Services.AddControllers();
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-        builder.Services.AddOpenApi();
-
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddRazorPages();
-
-        WebApplication app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
-            });
-        }
-
-        app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-        ProductModules.MapEndpoints(app);
-
-        app.MapControllers();
-        app.Run();
-    }
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = string.Empty;
+    });
 }
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapEndpoints();
+
+app.Run();

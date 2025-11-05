@@ -93,3 +93,9 @@
 ├── AspireAppHost/                     # Optional: .NET Aspire orchestration
 ├── docker-compose.yml                 # Local orchestration (Postgres, Redis, RabbitMQ, etc.)
 └── README.md
+
+
+Migrations:
+
+1. dotnet ef migrations add AddProducts --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\Modules\Products\EFM.Modules.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
+2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\Modules\Products\EFM.Modules.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
