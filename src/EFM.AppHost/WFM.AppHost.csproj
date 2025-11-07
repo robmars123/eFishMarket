@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EFM.Api\EFM.Api.csproj" />
-    <ProjectReference Include="..\Modules\Products\EFM.Module.Products.Api\EFM.Modules.Products.Api.csproj" />
+    <ProjectReference Include="..\EFM.BoundedContext\Products\EFM.Module.Products.Api\EFM.Products.Api.csproj" />
   </ItemGroup>
 
 </Project>

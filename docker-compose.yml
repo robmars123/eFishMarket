@@ -1,0 +1,6 @@
+services:
+  efm.api:
+    image: ${DOCKER_REGISTRY-}efmapi
+    build:
+      context: .
+      dockerfile: src/EFM.Api/Dockerfile

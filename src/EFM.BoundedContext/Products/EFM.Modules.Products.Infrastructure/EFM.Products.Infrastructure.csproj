@@ -12,8 +12,8 @@
 	  </PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\EFM.Module.Products.Api\EFM.Modules.Products.Api.csproj" />
-	  <ProjectReference Include="..\EFM.Modules.Products.Application\EFM.Modules.Products.Application.csproj" />
+	  <ProjectReference Include="..\EFM.Module.Products.Api\EFM.Products.Api.csproj" />
+	  <ProjectReference Include="..\EFM.Modules.Products.Application\EFM.Products.Application.csproj" />
 	</ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>

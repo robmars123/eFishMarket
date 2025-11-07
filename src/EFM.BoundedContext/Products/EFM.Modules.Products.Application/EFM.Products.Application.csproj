@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EFM.Modules.Products.Domain\EFM.Modules.Products.Domain.csproj" />
+    <ProjectReference Include="..\EFM.Modules.Products.Domain\EFM.Products.Domain.csproj" />
   </ItemGroup>
 
 </Project>

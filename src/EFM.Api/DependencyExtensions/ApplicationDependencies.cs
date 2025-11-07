@@ -2,7 +2,7 @@
 
 namespace EFM.Api.DependencyExtensions;
 
-public static class ApplicationDependencies
+internal static class ApplicationDependencies
 {
     public static void AddDependencyExtensions(this WebApplicationBuilder builder)
     {

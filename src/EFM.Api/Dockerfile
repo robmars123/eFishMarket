@@ -12,10 +12,11 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["EFM.Api.csproj", "."]
-RUN dotnet restore "./EFM.Api.csproj"
+COPY ["Directory.Build.props", "."]
+COPY ["src/EFM.Api/EFM.Api.csproj", "src/EFM.Api/"]
+RUN dotnet restore "./src/EFM.Api/EFM.Api.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/src/EFM.Api"
 RUN dotnet build "./EFM.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

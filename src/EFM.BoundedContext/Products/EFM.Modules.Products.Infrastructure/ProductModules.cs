@@ -10,9 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 namespace EFM.Modules.Products.Infrastructure;
 public static class ProductModules
 {
-    public static void MapEndpoints(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapProductEndpoints();
+        return app;
     }
 
     public static IServiceCollection AddProductsDependencies(this IServiceCollection services, IConfiguration configuration)
