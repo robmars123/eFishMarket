@@ -17,6 +17,11 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
     }
 
+    public async Task AddProductAsync(Product product, CancellationToken cancellationToken = default)
+    {
+        await AddAsync(product, cancellationToken);
+    }
+
     public async Task<GetProductByIdResponse> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         GetProductByIdResponse? product = await _dbContext.Products

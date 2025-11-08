@@ -1,9 +1,10 @@
 ﻿using EFM.Products.Domain.Products;
+using EFM.SharedKernel.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFM.Products.Infrastructure.Database;
 
-public sealed class ProductDbContext : DbContext
+public sealed class ProductDbContext : DbContext, IUnitOfWork
 {
     public ProductDbContext(DbContextOptions<ProductDbContext> options)
         : base(options)
@@ -34,5 +35,10 @@ public sealed class ProductDbContext : DbContext
         });
 
         modelBuilder.Entity<Product>().ToTable("Product");
+    }
+
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }

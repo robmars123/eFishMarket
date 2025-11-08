@@ -1,4 +1,5 @@
-﻿using EFM.Products.Api.Endpoints.GetAll;
+﻿using EFM.Products.Api.Endpoints.Create;
+using EFM.Products.Api.Endpoints.GetAll;
 using EFM.Products.Api.Endpoints.GetById;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -10,7 +11,7 @@ public static class EndpointRouteBuilderExtensions
     {
         endpoints.MapGet("/api/getPagedProducts", GetPagedProductsEndpoint.GetProducts);
         endpoints.MapGet("/api/getProductById", GetByIdEndpoint.GetProductById);
-
+        endpoints.MapPost("/api/createProduct", AddProductEndpoint.CreateProduct);
         return endpoints;
     }
 }
