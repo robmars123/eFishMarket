@@ -1,4 +1,4 @@
-﻿using EFM.Modules.Products.Infrastructure;
+﻿using EFM.Products.Infrastructure;
 
 namespace EFM.Api.DependencyExtensions;
 

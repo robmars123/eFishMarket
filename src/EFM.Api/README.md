@@ -97,5 +97,5 @@
 
 Migrations:
 
-1. dotnet ef migrations add AddProducts --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\Modules\Products\EFM.Modules.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
-2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\Modules\Products\EFM.Modules.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
+1. dotnet ef migrations add AddProducts --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
+2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
