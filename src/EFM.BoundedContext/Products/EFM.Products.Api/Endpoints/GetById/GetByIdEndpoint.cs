@@ -1,7 +1,7 @@
-﻿using EFM.Products.Application.Products.GetPagedProducts;
+﻿using EFM.Products.Api.Factories;
+using EFM.Products.Api.Models;
 using EFM.Products.Application.Products.GetProductById;
 using EFM.SharedKernel.Application.Mediator;
-using EFM.SharedKernel.Application.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +12,16 @@ public static class GetByIdEndpoint
     public static async Task<IResult> GetProductById(
        [FromQuery] Guid id,
        IDispatcher dispatcher,
+       [FromServices] IGetProductByIdFactory factory,
        CancellationToken cancellationToken)
     {
         GetProductByIdQuery query = new GetProductByIdQuery(id);
 
         GetProductByIdResponse result = await dispatcher.Send<GetProductByIdQuery, GetProductByIdResponse>(query, cancellationToken);
-        return Results.Ok(result);
+
+        //Always return DTO objects from API layer
+        ProductResponse response = factory.Create(result);
+
+        return Results.Ok(response);
     }
 }
