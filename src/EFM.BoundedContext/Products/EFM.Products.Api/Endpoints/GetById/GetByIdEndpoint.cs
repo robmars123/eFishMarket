@@ -1,4 +1,5 @@
-﻿using EFM.Products.Application.Products.GetAllProducts;
+﻿using EFM.Products.Application.Products.GetPagedProducts;
+using EFM.Products.Application.Products.GetProductById;
 using EFM.SharedKernel.Application.Mediator;
 using EFM.SharedKernel.Application.Results;
 using Microsoft.AspNetCore.Http;
@@ -8,14 +9,14 @@ namespace EFM.Products.Api.Endpoints.GetById;
 
 public static class GetByIdEndpoint
 {
-    //public static async Task<IResult> GetProductById(
-    //   [FromQuery] Guid id,
-    //   IDispatcher dispatcher,
-    //   CancellationToken cancellationToken)
-    //{
-    //    GetPagedProductsQuery query = new GetPagedProductsQuery(page, pageSize);
+    public static async Task<IResult> GetProductById(
+       [FromQuery] Guid id,
+       IDispatcher dispatcher,
+       CancellationToken cancellationToken)
+    {
+        GetProductByIdQuery query = new GetProductByIdQuery(id);
 
-    //    PagedResult<GetAllProductsResponse> result = await dispatcher.Send<GetPagedProductsQuery, PagedResult<GetAllProductsResponse>>(query, cancellationToken);
-    //    return Results.Ok(result);
-    //}
+        GetProductByIdResponse result = await dispatcher.Send<GetProductByIdQuery, GetProductByIdResponse>(query, cancellationToken);
+        return Results.Ok(result);
+    }
 }

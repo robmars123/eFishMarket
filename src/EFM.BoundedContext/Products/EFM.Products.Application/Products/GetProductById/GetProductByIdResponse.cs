@@ -1,12 +1,12 @@
-﻿namespace EFM.Products.Application.Products.GetAllProducts;
-public class GetPagedProductsResponse
+﻿namespace EFM.Products.Application.Products.GetProductById;
+public class GetProductByIdResponse
 {
     public Guid Id { get; }
     public string Name { get; }
 
     public decimal UnitPrice { get; }
 
-    public GetPagedProductsResponse(Guid id, string name, decimal unitPrice)
+    public GetProductByIdResponse(Guid id, string name, decimal unitPrice)
     {
         Id = id;
         Name = name;

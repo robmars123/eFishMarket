@@ -13,7 +13,7 @@
 	  </PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\EFM.Products.Api\EFM.Products.Api.csproj" />
+	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	</ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>

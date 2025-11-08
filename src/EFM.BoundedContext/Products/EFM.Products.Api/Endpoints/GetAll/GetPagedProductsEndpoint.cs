@@ -1,6 +1,6 @@
 ﻿using EFM.Products.Api.Factories.Abstractions;
 using EFM.Products.Api.Models;
-using EFM.Products.Application.Products.GetAllProducts;
+using EFM.Products.Application.Products.GetPagedProducts;
 using EFM.SharedKernel.Application.Mediator;
 using EFM.SharedKernel.Application.Results;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EFM.Products.Api.Endpoints.GetAll;
 
-public class GetAllProductsEndpoint
+public class GetPagedProductsEndpoint
 {
     public static async Task<IResult> GetProducts(
        [FromQuery] int page,

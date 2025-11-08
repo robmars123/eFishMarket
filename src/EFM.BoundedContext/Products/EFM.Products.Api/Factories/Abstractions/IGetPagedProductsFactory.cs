@@ -1,5 +1,5 @@
 ﻿using EFM.Products.Api.Models;
-using EFM.Products.Application.Products.GetAllProducts;
+using EFM.Products.Application.Products.GetPagedProducts;
 
 namespace EFM.Products.Api.Factories.Abstractions;
 public interface IGetPagedProductsFactory

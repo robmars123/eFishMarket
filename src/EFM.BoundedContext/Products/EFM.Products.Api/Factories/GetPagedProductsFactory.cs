@@ -1,9 +1,9 @@
 ﻿using EFM.Products.Api.Factories.Abstractions;
 using EFM.Products.Api.Models;
-using EFM.Products.Application.Products.GetAllProducts;
+using EFM.Products.Application.Products.GetPagedProducts;
 
 namespace EFM.Products.Api.Factories;
-internal class GetPagedProductsFactory : IGetPagedProductsFactory
+public class GetPagedProductsFactory : IGetPagedProductsFactory
 {
     public ProductResponse Create(GetPagedProductsResponse source)
     {

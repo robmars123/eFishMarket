@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EFM.Products.Infrastructure;
+namespace EFM.Products.Api;
 public static class ProductModules
 {
     public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)

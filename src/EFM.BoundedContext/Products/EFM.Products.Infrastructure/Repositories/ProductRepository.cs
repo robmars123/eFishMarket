@@ -1,18 +1,31 @@
 ﻿using Dapper;
 using EFM.Products.Application.Abstractions.Database;
-using EFM.Products.Application.Products.GetAllProducts;
+using EFM.Products.Application.Products.GetPagedProducts;
+using EFM.Products.Application.Products.GetProductById;
 using EFM.Products.Application.Repositories;
 using EFM.Products.Domain.Products;
 using EFM.Products.Infrastructure.Database;
 using EFM.SharedKernel.Application.Results;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFM.Products.Infrastructure.Repositories;
 public class ProductRepository : BaseRepository<Product>, IProductRepository
 {
-    public ProductRepository(ProductDbContext dbContext, IConnectionDbFactory connection) 
+    public ProductRepository(ProductDbContext dbContext, IConnectionDbFactory connection)
         : base(dbContext, connection)
     {
+    }
+
+    public async Task<GetProductByIdResponse> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        GetProductByIdResponse? product = await _dbContext.Products
+            .AsNoTracking()
+            .Where(p => p.Id == id && !p.IsDeleted)
+            .Select(p => new GetProductByIdResponse(p.Id, p.Name, p.UnitPrice))
+            .FirstOrDefaultAsync(cancellationToken);
+
+        return product;
     }
 
     public async Task<PagedResult<GetPagedProductsResponse>> GetProducts(GetPagedProductsQuery request, CancellationToken cancellationToken)
