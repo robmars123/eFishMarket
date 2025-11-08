@@ -1,4 +1,6 @@
-﻿using EFM.Products.Application.Products.GetAllProducts;
+﻿using EFM.Products.Api.Factories.Abstractions;
+using EFM.Products.Api.Models;
+using EFM.Products.Application.Products.GetAllProducts;
 using EFM.SharedKernel.Application.Mediator;
 using EFM.SharedKernel.Application.Results;
 using Microsoft.AspNetCore.Http;
@@ -6,12 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EFM.Products.Api.Endpoints.GetAll;
 
-public static class GetAllProductsEndpoint
+public class GetAllProductsEndpoint
 {
     public static async Task<IResult> GetProducts(
        [FromQuery] int page,
        [FromQuery] int pageSize,
        IDispatcher dispatcher,
+       [FromServices] IGetPagedProductsFactory factory,
        CancellationToken cancellationToken)
     {
         // Ensure valid input
@@ -20,8 +23,17 @@ public static class GetAllProductsEndpoint
 
         GetPagedProductsQuery query = new GetPagedProductsQuery(page, pageSize);
 
-        PagedResult<GetAllProductsResponse> result = await dispatcher.Send<GetPagedProductsQuery, PagedResult<GetAllProductsResponse>>(query, cancellationToken);
-        return Results.Ok(result);
+        PagedResult<GetPagedProductsResponse> result = await dispatcher.Send<GetPagedProductsQuery, PagedResult<GetPagedProductsResponse>>(query, cancellationToken);
+
+        List<ProductResponse> items = factory.Create(result.Items).ToList();
+
+        PagedResponse<ProductResponse> response = new PagedResponse<ProductResponse>(
+                        items,
+                        result.TotalCount,
+                        page,
+                        pageSize
+                    );
+        return Results.Ok(response);
     }
 }
 

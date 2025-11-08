@@ -14,6 +14,8 @@ internal static class ApplicationDependencies
         builder.Services.AddSwaggerGen();
         builder.Services.AddRazorPages();
 
+        #region Bounded Context Dependencies
         builder.Services.AddProductsDependencies(builder.Configuration);
+        #endregion
     }
 }

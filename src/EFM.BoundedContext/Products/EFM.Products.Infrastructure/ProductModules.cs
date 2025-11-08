@@ -1,4 +1,5 @@
 ﻿using EFM.Products.Api.Extensions;
+using EFM.Products.Application.Abstractions.Database;
 using EFM.Products.Application.Repositories;
 using EFM.Products.Infrastructure.Database;
 using EFM.Products.Infrastructure.Repositories;
@@ -20,6 +21,7 @@ public static class ProductModules
     {
         AddSqlServer(services, configuration);
         AddRepositories(services);
+        AddFactories(services);
 
         return services;
     }
@@ -30,8 +32,14 @@ public static class ProductModules
         services.AddScoped<IProductRepository, ProductRepository>();
     }
 
+    private static void AddFactories(IServiceCollection services)
+    {
+        services.AddProductApiDependencies();
+    }
+
     private static void AddSqlServer(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IConnectionDbFactory, ConnectionDbFactory>();
         services.AddDbContext<ProductDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")!, sqlOptions =>

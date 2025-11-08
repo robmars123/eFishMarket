@@ -1,24 +1,23 @@
-﻿using EFM.Products.Domain.Products;
-using EFM.Products.Infrastructure.Database;
+﻿using Dapper;
+using EFM.Products.Application.Abstractions.Database;
 using EFM.Products.Application.Products.GetAllProducts;
+using EFM.Products.Application.Repositories;
+using EFM.Products.Domain.Products;
+using EFM.Products.Infrastructure.Database;
 using EFM.SharedKernel.Application.Results;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using Dapper;
-using EFM.Products.Application.Repositories;
 
 namespace EFM.Products.Infrastructure.Repositories;
 public class ProductRepository : BaseRepository<Product>, IProductRepository
 {
-    private readonly string _connectionString;
-    public ProductRepository(ProductDbContext dbContext, IConfiguration configuration) : base(dbContext)
+    public ProductRepository(ProductDbContext dbContext, IConnectionDbFactory connection) 
+        : base(dbContext, connection)
     {
-        _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
-    public async Task<PagedResult<GetAllProductsResponse>> GetProducts(GetPagedProductsQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<GetPagedProductsResponse>> GetProducts(GetPagedProductsQuery request, CancellationToken cancellationToken)
     {
-        using var connection = new SqlConnection(_connectionString);
+        using var connection = new SqlConnection(_connection);
         await connection.OpenAsync(cancellationToken);
 
         string sql = """
@@ -43,10 +42,10 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
         var products = (await multi.ReadAsync<Product>()).ToList();
 
         var responses = products
-            .Select(p => new GetAllProductsResponse(p.Id, p.Name, p.UnitPrice))
+            .Select(p => new GetPagedProductsResponse(p.Id, p.Name, p.UnitPrice))
             .ToList();
 
-        PagedResult<GetAllProductsResponse> result = new PagedResult<GetAllProductsResponse>(responses, totalCount);
+        PagedResult<GetPagedProductsResponse> result = new PagedResult<GetPagedProductsResponse>(responses, totalCount);
         return result;
     }
 }
