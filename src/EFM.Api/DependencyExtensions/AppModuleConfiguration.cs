@@ -1,10 +1,18 @@
 ﻿using EFM.Products.Api;
+using EFM.Inventory.Api;
 
 namespace EFM.Api.DependencyExtensions;
 
-internal static class AppConfiguration
+internal static class AppModuleConfiguration
 {
-    public static void EnvironmentConfig(this WebApplication app)
+    public static void AppConfig(this WebApplication app)
+    {
+        AppHttpPipeline(app);
+        app.MapProductModule();
+        app.MapInventoryModule();
+    }
+
+    private static void AppHttpPipeline(WebApplication app)
     {
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -21,7 +29,6 @@ internal static class AppConfiguration
         app.UseCors("AllowAnyClient");
         app.UseHttpsRedirection();
         app.UseAuthorization();
-        app.MapEndpoints();
     }
 
     public static void AddCORS(this IServiceCollection services)

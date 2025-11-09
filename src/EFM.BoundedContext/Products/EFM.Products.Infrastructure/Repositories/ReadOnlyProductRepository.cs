@@ -1,16 +1,17 @@
 ﻿using Dapper;
 using EFM.Common.Application.Database;
+using EFM.Common.Application.Results;
+using EFM.Common.Infrastructure.Repositories;
 using EFM.Products.Application.Products.GetPagedProducts;
 using EFM.Products.Application.Products.GetProductById;
 using EFM.Products.Application.Repositories;
 using EFM.Products.Domain.Products;
 using EFM.Products.Infrastructure.Database;
-using EFM.Common.Application.Results;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFM.Products.Infrastructure.Repositories;
-public class ReadOnlyProductRepository : BaseRepository<Product>, IReadOnlyProductRepository
+public class ReadOnlyProductRepository : BaseRepository<Product, ProductDbContext>, IReadOnlyProductRepository
 {
     public ReadOnlyProductRepository(ProductDbContext dbContext, IConnectionDbFactory connection)
     : base(dbContext, connection)

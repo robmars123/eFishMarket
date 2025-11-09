@@ -1,4 +1,4 @@
-﻿namespace EFM.Products.Domain.Products;
+﻿namespace EFM.Common.Domain;
 public abstract class Entity
 {
     protected Entity(Guid id)

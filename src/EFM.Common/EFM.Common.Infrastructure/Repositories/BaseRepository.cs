@@ -1,14 +1,16 @@
 ﻿using EFM.Common.Application.Database;
-using EFM.Products.Domain.Products;
-using EFM.Products.Infrastructure.Database;
+using EFM.Common.Domain;
+using Microsoft.EntityFrameworkCore;
 
-namespace EFM.Products.Infrastructure.Repositories;
-public abstract class BaseRepository<T> where T : Entity
+namespace EFM.Common.Infrastructure.Repositories;
+public abstract class BaseRepository<T, TDbContext> 
+    where T : Entity
+    where TDbContext : DbContext
 {
-    protected readonly ProductDbContext _dbContext;
+    protected readonly TDbContext _dbContext;
     protected readonly string _connection;
 
-    protected BaseRepository(ProductDbContext dbContext, IConnectionDbFactory connection)
+    protected BaseRepository(TDbContext dbContext, IConnectionDbFactory connection)
     {
         _dbContext = dbContext;
         _connection = connection.GetConnectionString();

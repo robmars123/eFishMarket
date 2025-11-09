@@ -78,7 +78,7 @@
 │   ├── Startup.cs (if used)
 │   └── Configuration/                # Modular DI, app settings, policies
 
-├── SharedKernel/                      # Optional: common value objects (Money, Email, Address)
+├── Common/                      # Optional: common value objects (Money, Email, Address)
 │   ├── Domain/
 │   └── Application/
 
@@ -97,5 +97,10 @@
 
 Migrations:
 
-1. dotnet ef migrations add AddProducts --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
-2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api"
+--Products Module
+1. dotnet ef migrations add AddProducts --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context ProductDbContext
+2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context ProductDbContext
+
+--Inventory Module
+1. dotnet ef migrations add AddInventory --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context InventoryDbContext
+2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context InventoryDbContext

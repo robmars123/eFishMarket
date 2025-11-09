@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Domain\EFM.Common.Domain.csproj" />
+    <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Application\EFM.Common.Application.csproj" />
+    <ProjectReference Include="..\EFM.Inventory.Domain\EFM.Inventory.Domain.csproj" />
   </ItemGroup>
 
 </Project>

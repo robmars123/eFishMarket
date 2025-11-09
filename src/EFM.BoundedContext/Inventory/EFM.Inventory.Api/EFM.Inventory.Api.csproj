@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Factories\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\EFM.Inventory.Application\EFM.Inventory.Application.csproj" />
+		<ProjectReference Include="..\EFM.Inventory.Domain\EFM.Inventory.Domain.csproj" />
+		<ProjectReference Include="..\EFM.Inventory.Infrastructure\EFM.Inventory.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

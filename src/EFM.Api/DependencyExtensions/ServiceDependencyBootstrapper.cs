@@ -1,9 +1,10 @@
 ﻿using EFM.Common.Infrastructure.Configurations;
+using EFM.Inventory.Api;
 using EFM.Products.Api;
 
 namespace EFM.Api.DependencyExtensions;
 
-internal static class DependencyBootstrapper
+internal static class ServiceDependencyBootstrapper
 {
     public static void AddDependencyExtensions(this WebApplicationBuilder builder)
     {
@@ -11,6 +12,7 @@ internal static class DependencyBootstrapper
 
         #region Bounded Context Dependencies
         builder.Services.AddProductsDependencies(builder.Configuration);
+        builder.Services.AddInventoryDependencies(builder.Configuration);
         #endregion
 
         #region Common Dependencies

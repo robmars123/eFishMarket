@@ -1,24 +1,24 @@
-﻿using EFM.Products.Api.Extensions;
-using EFM.Common.Application.Database;
-using EFM.Products.Application.Repositories;
-using EFM.Products.Infrastructure.Database;
-using EFM.Products.Infrastructure.Repositories;
+﻿using EFM.Common.Application.Database;
+using EFM.Common.Infrastructure.Database;
+using EFM.Inventory.Api.Extensions;
+using EFM.Inventory.Application.Abstractions.Repositories;
+using EFM.Inventory.Infrastructure.Database;
+using EFM.Inventory.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EFM.Common.Infrastructure.Database;
 
-namespace EFM.Products.Api;
-public static class ProductModules
+namespace EFM.Inventory.Api;
+public static class InventoryItemModule
 {
-    public static IEndpointRouteBuilder MapProductModule(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapInventoryModule(this IEndpointRouteBuilder app)
     {
-        app.MapProductEndpoints();
+        app.MapInventoryEndpoints();
         return app;
     }
 
-    public static IServiceCollection AddProductsDependencies(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInventoryDependencies(this IServiceCollection services, IConfiguration configuration)
     {
         AddSqlServer(services, configuration);
         AddRepositories(services);
@@ -30,23 +30,22 @@ public static class ProductModules
     private static void AddRepositories(IServiceCollection services)
     {
         //Add more repositories here
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<IReadOnlyProductRepository, ReadOnlyProductRepository>();
+        services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
     }
 
     private static void AddFactories(IServiceCollection services)
     {
-        services.AddProductApiDependencies();
+        services.AddInventoryApiDependencies();
     }
 
     private static void AddSqlServer(IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IConnectionDbFactory, ConnectionDbFactory>();
-        services.AddDbContext<ProductDbContext>(options =>
+        services.AddDbContext<InventoryDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")!, sqlOptions =>
             {
-                sqlOptions.MigrationsAssembly("EFM.Products.Infrastructure");
+                sqlOptions.MigrationsAssembly("EFM.Inventory.Infrastructure");
                 sqlOptions.EnableRetryOnFailure();
             });
         });

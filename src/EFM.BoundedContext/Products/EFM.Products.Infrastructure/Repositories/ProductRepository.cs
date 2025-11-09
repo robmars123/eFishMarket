@@ -1,11 +1,12 @@
 ﻿using EFM.Common.Application.Database;
+using EFM.Common.Infrastructure.Repositories;
 using EFM.Products.Application.Repositories;
 using EFM.Products.Domain.Products;
 using EFM.Products.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFM.Products.Infrastructure.Repositories;
-public class ProductRepository : BaseRepository<Product>, IProductRepository
+public class ProductRepository : BaseRepository<Product, ProductDbContext>, IProductRepository
 {
     public ProductRepository(ProductDbContext dbContext, IConnectionDbFactory connection)
         : base(dbContext, connection)

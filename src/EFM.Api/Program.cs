@@ -6,6 +6,6 @@ builder.AddDependencyExtensions();
 
 WebApplication app = builder.Build();
 
-app.EnvironmentConfig();
+app.AppConfig();
 
 app.Run();
