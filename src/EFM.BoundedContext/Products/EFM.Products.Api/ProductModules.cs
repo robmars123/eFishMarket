@@ -1,5 +1,5 @@
 ﻿using EFM.Products.Api.Extensions;
-using EFM.Products.Application.Abstractions.Database;
+using EFM.Common.Application.Database;
 using EFM.Products.Application.Repositories;
 using EFM.Products.Infrastructure.Database;
 using EFM.Products.Infrastructure.Repositories;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using EFM.Common.Infrastructure.Database;
 
 namespace EFM.Products.Api;
 public static class ProductModules

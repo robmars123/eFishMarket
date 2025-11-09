@@ -1,0 +1,34 @@
+﻿using EFM.Common.Infrastructure.Configurations;
+using EFM.Products.Api;
+
+namespace EFM.Api.DependencyExtensions;
+
+internal static class DependencyBootstrapper
+{
+    public static void AddDependencyExtensions(this WebApplicationBuilder builder)
+    {
+        AddApiDependencies(builder);
+
+        #region Bounded Context Dependencies
+        builder.Services.AddProductsDependencies(builder.Configuration);
+        #endregion
+
+        #region Common Dependencies
+        builder.Services.AddInfrastructureConfiguration();
+        #endregion
+    }
+
+    private static void AddApiDependencies(WebApplicationBuilder builder)
+    {
+        builder.Services.AddCORS();
+        builder.Services.RegisterHandlers();
+
+        builder.Services.AddControllers();
+        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+        builder.Services.AddOpenApi();
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddRazorPages();
+    }
+}

@@ -1,4 +1,4 @@
-﻿using EFM.Products.Application.Abstractions.Database;
+﻿using EFM.Common.Application.Database;
 using EFM.Products.Application.Repositories;
 using EFM.Products.Domain.Products;
 using EFM.Products.Infrastructure.Database;
@@ -20,6 +20,6 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _dbContext.Products
-            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 }

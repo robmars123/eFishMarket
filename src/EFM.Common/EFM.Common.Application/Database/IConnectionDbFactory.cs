@@ -1,4 +1,4 @@
-﻿namespace EFM.Products.Application.Abstractions.Database;
+﻿namespace EFM.Common.Application.Database;
 public interface IConnectionDbFactory
 {
     string GetConnectionString();

@@ -1,4 +1,4 @@
-﻿using EFM.Products.Application.Abstractions.Database;
+﻿using EFM.Common.Application.Database;
 using EFM.Products.Domain.Products;
 using EFM.Products.Infrastructure.Database;
 

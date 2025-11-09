@@ -13,6 +13,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Application\EFM.Common.Application.csproj" />
+	  <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Infrastructure\EFM.Products.Infrastructure.csproj" />

@@ -1,7 +1,7 @@
-﻿using EFM.Products.Application.Abstractions.Database;
+﻿using EFM.Common.Application.Database;
 using Microsoft.Extensions.Configuration;
 
-namespace EFM.Products.Infrastructure.Database;
+namespace EFM.Common.Infrastructure.Database;
 public class ConnectionDbFactory : IConnectionDbFactory
 {
     private readonly string _connectionString;

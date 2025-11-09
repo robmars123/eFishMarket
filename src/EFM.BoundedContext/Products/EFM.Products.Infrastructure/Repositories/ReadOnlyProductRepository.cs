@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using EFM.Products.Application.Abstractions.Database;
+using EFM.Common.Application.Database;
 using EFM.Products.Application.Products.GetPagedProducts;
 using EFM.Products.Application.Products.GetProductById;
 using EFM.Products.Application.Repositories;
