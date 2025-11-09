@@ -1,5 +1,5 @@
-﻿using EFM.SharedKernel.Application.Queries;
-using EFM.SharedKernel.Application.Results;
+﻿using EFM.Common.Application.Queries;
+using EFM.Common.Application.Results;
 
 namespace EFM.Products.Application.Products.GetPagedProducts;
 

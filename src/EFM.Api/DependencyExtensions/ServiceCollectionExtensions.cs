@@ -1,7 +1,7 @@
 ﻿using EFM.Products.Infrastructure.Database;
-using EFM.SharedKernel.Application.Mediator;
-using EFM.SharedKernel.Domain.Abstractions;
-using EFM.SharedKernel.Infrastructure.Mediator;
+using EFM.Common.Application.Mediator;
+using EFM.Common.Domain.Abstractions;
+using EFM.Common.Infrastructure.Mediator;
 
 namespace EFM.Api.DependencyExtensions;
 

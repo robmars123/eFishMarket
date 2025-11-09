@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using EFM.SharedKernel.Application.Commands;
-using EFM.SharedKernel.Application.Events;
-using EFM.SharedKernel.Application.Mediator;
-using EFM.SharedKernel.Application.Queries;
-using EFM.SharedKernel.Domain.Abstractions;
+using EFM.Common.Application.Commands;
+using EFM.Common.Application.Events;
+using EFM.Common.Application.Mediator;
+using EFM.Common.Application.Queries;
+using EFM.Common.Domain.Abstractions;
 
-namespace EFM.SharedKernel.Infrastructure.Mediator;
+namespace EFM.Common.Infrastructure.Mediator;
 
 public class Dispatcher : IDispatcher
 {

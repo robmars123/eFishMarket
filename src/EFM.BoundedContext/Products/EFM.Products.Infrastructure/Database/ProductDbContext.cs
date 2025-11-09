@@ -1,5 +1,5 @@
 ﻿using EFM.Products.Domain.Products;
-using EFM.SharedKernel.Domain.Abstractions;
+using EFM.Common.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFM.Products.Infrastructure.Database;

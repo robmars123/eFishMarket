@@ -1,4 +1,4 @@
-﻿namespace EFM.SharedKernel.Application.Results;
+﻿namespace EFM.Common.Application.Results;
 public sealed class PagedResult<T>
 {
     public IReadOnlyList<T> Items { get; }

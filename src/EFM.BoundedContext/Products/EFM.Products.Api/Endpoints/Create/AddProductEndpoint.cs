@@ -1,6 +1,6 @@
 ﻿using EFM.Products.Api.Models;
 using EFM.Products.Application.Products.AddProduct;
-using EFM.SharedKernel.Application.Mediator;
+using EFM.Common.Application.Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EFM.Products.Api.Endpoints.Create;

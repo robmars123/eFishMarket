@@ -1,4 +1,4 @@
-﻿namespace EFM.SharedKernel.Application.Commands;
+﻿namespace EFM.Common.Application.Commands;
 
 public interface ICommandHandler<in TCommand> where TCommand : ICommand
 {

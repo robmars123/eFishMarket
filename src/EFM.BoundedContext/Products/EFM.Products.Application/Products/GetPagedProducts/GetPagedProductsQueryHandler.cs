@@ -1,6 +1,6 @@
 ﻿using EFM.Products.Application.Repositories;
-using EFM.SharedKernel.Application.Queries;
-using EFM.SharedKernel.Application.Results;
+using EFM.Common.Application.Queries;
+using EFM.Common.Application.Results;
 
 namespace EFM.Products.Application.Products.GetPagedProducts;
 public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuery, PagedResult<GetPagedProductsResponse>>

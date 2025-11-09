@@ -1,8 +1,8 @@
 ﻿using EFM.Products.Api.Factories.Abstractions;
 using EFM.Products.Api.Models;
 using EFM.Products.Application.Products.GetPagedProducts;
-using EFM.SharedKernel.Application.Mediator;
-using EFM.SharedKernel.Application.Results;
+using EFM.Common.Application.Mediator;
+using EFM.Common.Application.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

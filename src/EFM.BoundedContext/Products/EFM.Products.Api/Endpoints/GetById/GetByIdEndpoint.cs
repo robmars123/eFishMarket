@@ -1,7 +1,7 @@
 ﻿using EFM.Products.Api.Factories;
 using EFM.Products.Api.Models;
 using EFM.Products.Application.Products.GetProductById;
-using EFM.SharedKernel.Application.Mediator;
+using EFM.Common.Application.Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

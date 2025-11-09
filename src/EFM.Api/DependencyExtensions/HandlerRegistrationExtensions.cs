@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using EFM.SharedKernel.Application.Commands;
-using EFM.SharedKernel.Application.Events;
-using EFM.SharedKernel.Application.Queries;
+using EFM.Common.Application.Commands;
+using EFM.Common.Application.Events;
+using EFM.Common.Application.Queries;
 
 namespace EFM.Api.DependencyExtensions;
 

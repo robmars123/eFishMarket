@@ -1,8 +1,8 @@
-﻿using EFM.SharedKernel.Application.Commands;
-using EFM.SharedKernel.Application.Queries;
-using EFM.SharedKernel.Domain.Abstractions;
+﻿using EFM.Common.Application.Commands;
+using EFM.Common.Application.Queries;
+using EFM.Common.Domain.Abstractions;
 
-namespace EFM.SharedKernel.Application.Mediator;
+namespace EFM.Common.Application.Mediator;
 public interface IDispatcher
 {
     Task Send<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : ICommand;

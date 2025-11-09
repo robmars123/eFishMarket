@@ -1,5 +1,5 @@
 ﻿using EFM.Products.Application.Repositories;
-using EFM.SharedKernel.Application.Queries;
+using EFM.Common.Application.Queries;
 
 namespace EFM.Products.Application.Products.GetProductById;
 public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdResponse>

@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EFM.SharedKernel.Application\EFM.SharedKernel.Application.csproj" />
-    <ProjectReference Include="..\EFM.SharedKernel.Domain\EFM.SharedKernel.Domain.csproj" />
+    <ProjectReference Include="..\EFM.Common.Application\EFM.Common.Application.csproj" />
+    <ProjectReference Include="..\EFM.Common.Domain\EFM.Common.Domain.csproj" />
   </ItemGroup>
 
 </Project>

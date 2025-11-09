@@ -12,7 +12,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\EFM.SharedKernel\EFM.SharedKernel.Application\EFM.SharedKernel.Application.csproj" />
+	  <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Application\EFM.Common.Application.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Infrastructure\EFM.Products.Infrastructure.csproj" />

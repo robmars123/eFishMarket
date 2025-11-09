@@ -5,7 +5,7 @@ using EFM.Products.Application.Products.GetProductById;
 using EFM.Products.Application.Repositories;
 using EFM.Products.Domain.Products;
 using EFM.Products.Infrastructure.Database;
-using EFM.SharedKernel.Application.Results;
+using EFM.Common.Application.Results;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 

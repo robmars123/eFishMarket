@@ -1,4 +1,4 @@
-﻿using EFM.SharedKernel.Application.Commands;
+﻿using EFM.Common.Application.Commands;
 
 namespace EFM.Products.Application.Products.UpdateProduct;
 public class UpdateProductCommand : ICommand

@@ -1,4 +1,4 @@
-﻿namespace EFM.SharedKernel.Application.Commands;
+﻿namespace EFM.Common.Application.Commands;
 public interface ICommand
 {
     // This can be used to mark types that represent commands

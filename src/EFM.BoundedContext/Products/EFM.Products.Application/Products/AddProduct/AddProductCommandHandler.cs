@@ -1,7 +1,7 @@
 ﻿using EFM.Products.Application.Repositories;
 using EFM.Products.Domain.Products;
-using EFM.SharedKernel.Application.Commands;
-using EFM.SharedKernel.Domain.Abstractions;
+using EFM.Common.Application.Commands;
+using EFM.Common.Domain.Abstractions;
 
 namespace EFM.Products.Application.Products.AddProduct;
 public class AddProductCommandHandler : ICommandHandler<AddProductCommand>

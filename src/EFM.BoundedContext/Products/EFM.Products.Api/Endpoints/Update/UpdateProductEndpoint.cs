@@ -1,6 +1,6 @@
 ﻿using EFM.Products.Api.Models;
 using EFM.Products.Application.Products.UpdateProduct;
-using EFM.SharedKernel.Application.Mediator;
+using EFM.Common.Application.Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EFM.Products.Api.Endpoints.Update;

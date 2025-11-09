@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EFM.BoundedContext\Products\EFM.Products.Api\EFM.Products.Api.csproj" />
-    <ProjectReference Include="..\EFM.SharedKernel\EFM.SharedKernel.Infrastructure\EFM.SharedKernel.Infrastructure.csproj" />
+    <ProjectReference Include="..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
