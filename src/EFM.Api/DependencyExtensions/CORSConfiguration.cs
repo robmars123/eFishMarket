@@ -6,12 +6,12 @@ internal static class CORSConfiguration
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAngularDevClient", policy =>
+            options.AddPolicy("AllowAnyClient", policy =>
             {
                 policy.WithOrigins(
                     "http://localhost:4200",
                     "http://localhost:8080",
-                    "https://localhost:5003"
+                    "http://localhost:5000"
                 )
                 .AllowAnyHeader()
                 .AllowAnyMethod()

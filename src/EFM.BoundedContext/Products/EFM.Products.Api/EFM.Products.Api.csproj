@@ -17,4 +17,7 @@
 	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Infrastructure\EFM.Products.Infrastructure.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Endpoints\Delete\" />
+	</ItemGroup>
 </Project>

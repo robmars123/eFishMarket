@@ -30,6 +30,7 @@ public static class ProductModules
     {
         //Add more repositories here
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IReadOnlyProductRepository, ReadOnlyProductRepository>();
     }
 
     private static void AddFactories(IServiceCollection services)

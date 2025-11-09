@@ -4,9 +4,9 @@ using EFM.SharedKernel.Application.Queries;
 namespace EFM.Products.Application.Products.GetProductById;
 public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdResponse>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IReadOnlyProductRepository _productRepository;
 
-    public GetProductByIdQueryHandler(IProductRepository productRepository)
+    public GetProductByIdQueryHandler(IReadOnlyProductRepository productRepository)
     {
         _productRepository = productRepository;
     }

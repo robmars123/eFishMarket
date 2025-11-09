@@ -4,3 +4,6 @@ services:
     build:
       context: .
       dockerfile: src/EFM.Api/Dockerfile
+    ports:
+    - 5000:8080
+    - 5001:8081

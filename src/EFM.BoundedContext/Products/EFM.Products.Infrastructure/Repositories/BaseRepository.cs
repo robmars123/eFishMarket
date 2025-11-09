@@ -3,12 +3,12 @@ using EFM.Products.Domain.Products;
 using EFM.Products.Infrastructure.Database;
 
 namespace EFM.Products.Infrastructure.Repositories;
-public class BaseRepository<T> where T : Entity
+public abstract class BaseRepository<T> where T : Entity
 {
     protected readonly ProductDbContext _dbContext;
     protected readonly string _connection;
 
-    public BaseRepository(ProductDbContext dbContext, IConnectionDbFactory connection)
+    protected BaseRepository(ProductDbContext dbContext, IConnectionDbFactory connection)
     {
         _dbContext = dbContext;
         _connection = connection.GetConnectionString();

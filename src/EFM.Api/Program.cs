@@ -9,5 +9,7 @@ builder.Services.RegisterHandlers();
 
 WebApplication app = builder.Build();
 
+app.UseCors("AllowAnyClient");
 app.EnvironmentConfig();
+
 app.Run();

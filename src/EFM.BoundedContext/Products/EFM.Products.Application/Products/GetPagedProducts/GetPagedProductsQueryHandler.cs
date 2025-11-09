@@ -5,9 +5,9 @@ using EFM.SharedKernel.Application.Results;
 namespace EFM.Products.Application.Products.GetPagedProducts;
 public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuery, PagedResult<GetPagedProductsResponse>>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IReadOnlyProductRepository _productRepository;
 
-    public GetPagedProductsQueryHandler(IProductRepository productRepository)
+    public GetPagedProductsQueryHandler(IReadOnlyProductRepository productRepository)
     {
         _productRepository = productRepository;
     }

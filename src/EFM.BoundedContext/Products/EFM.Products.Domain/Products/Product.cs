@@ -1,6 +1,4 @@
-﻿using EFM.Products.Domain.Products;
-
-namespace EFM.Products.Domain.Products;
+﻿namespace EFM.Products.Domain.Products;
 
 public sealed class Product : Entity
 {
