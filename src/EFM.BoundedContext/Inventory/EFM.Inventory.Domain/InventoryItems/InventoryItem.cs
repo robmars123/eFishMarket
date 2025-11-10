@@ -23,14 +23,14 @@ public class InventoryItem : Entity
         return new InventoryItem(id, productId, quantity, createdDate);
     }
 
-    public void AdjustQuantity(int amount)
+    public void AdjustQuantity(int count)
     {
-        if (amount < 0)
+        if (count < 0)
         {
-            throw new ArgumentException("Quantity cannot be negative.", nameof(amount));
+            throw new ArgumentException("Quantity cannot be negative.", nameof(count));
         }
 
-        Quantity += amount;
+        Quantity += count;
         LastUpdatedUtc = DateTime.UtcNow;
     }
 

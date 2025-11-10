@@ -14,7 +14,7 @@ public class AddInventoryItemEndpoint
             return Results.BadRequest();
         }
 
-        var command = new AddInventoryItemCommand(request.productId);
+        var command = new AddInventoryItemCommand(request.ProductId, request.Quantity);
         await dispatcher.Send(command);
 
         return Results.Created($"/api/inventoryItem", request);

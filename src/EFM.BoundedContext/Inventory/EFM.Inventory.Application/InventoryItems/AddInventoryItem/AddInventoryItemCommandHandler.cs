@@ -22,7 +22,7 @@ public class AddInventoryItemCommandHandler : ICommandHandler<AddInventoryItemCo
     }
     public async Task Handle(AddInventoryItemCommand command, CancellationToken cancellationToken)
     {
-        InventoryItem inventoryItem = InventoryItem.Create(command.ProductId, 0, _dateTimeProvider.UtcNow);
+        InventoryItem inventoryItem = InventoryItem.Create(command.ProductId, command.Quantity, _dateTimeProvider.UtcNow);
 
         await _inventoryItemRepository.AddInventoryItemAsync(inventoryItem, cancellationToken);
 

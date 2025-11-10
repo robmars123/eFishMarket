@@ -4,4 +4,4 @@
 /// </summary>
 /// <param name="Name"></param>
 /// <param name="Price"></param>
-public record AddInventoryItemRequest(Guid productId);
+public record AddInventoryItemRequest(Guid ProductId, int Quantity);

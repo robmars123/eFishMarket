@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
     <ProjectReference Include="..\EFM.Inventory.Application\EFM.Inventory.Application.csproj" />
+    <ProjectReference Include="..\EFM.Inventory.PublicApi\EFM.Inventory.PublicApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,7 @@
 ﻿using EFM.Common.Domain.Abstractions;
 using EFM.Inventory.Infrastructure.Database;
+using EFM.Inventory.Infrastructure.PublicApi;
+using EFM.Inventory.PublicApi;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EFM.Inventory.Api.Extensions;
@@ -10,6 +12,8 @@ public static class DependencyExtension
         //services.AddScoped<IGetPagedProductsFactory, GetPagedProductsFactory>();
         //services.AddScoped<IGetProductByIdFactory, GetProductByIdFactory>();
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<InventoryDbContext>());
+
+        services.AddScoped<IInventoryApi, InventoryApi>();
         return services;
     }
 }
