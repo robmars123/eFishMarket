@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REGISTRY-}efmapi
     build:
       context: .
-      dockerfile: src/EFM.Api/Dockerfile
+      dockerfile: src/api/EFM.Api/Dockerfile
     ports:
     - 5000:8080
     - 5001:8081

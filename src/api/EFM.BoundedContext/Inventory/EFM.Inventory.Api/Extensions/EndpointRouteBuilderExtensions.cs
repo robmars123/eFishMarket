@@ -7,7 +7,7 @@ public static class EndpointRouteBuilderExtensions
 {
     public static IEndpointRouteBuilder MapInventoryEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPost("/api/getInventoryItems", AddInventoryItemEndpoint.AddInventoryItemAsync);
+        endpoints.MapPost("/api/createInventoryItem", AddInventoryItemEndpoint.AddInventoryItemAsync);
         return endpoints;
     }
 }
