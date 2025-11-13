@@ -13,10 +13,22 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Build.props", "."]
-COPY ["src/EFM.Api/EFM.Api.csproj", "src/EFM.Api/"]
-RUN dotnet restore "./src/EFM.Api/EFM.Api.csproj"
+COPY ["src/api/EFM.Api/EFM.Api.csproj", "src/api/EFM.Api/"]
+COPY ["src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Api/EFM.Inventory.Api.csproj", "src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Api/"]
+COPY ["src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Application/EFM.Inventory.Application.csproj", "src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Application/"]
+COPY ["src/api/EFM.Common/EFM.Common.Application/EFM.Common.Application.csproj", "src/api/EFM.Common/EFM.Common.Application/"]
+COPY ["src/api/EFM.Common/EFM.Common.Domain/EFM.Common.Domain.csproj", "src/api/EFM.Common/EFM.Common.Domain/"]
+COPY ["src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Domain/EFM.Inventory.Domain.csproj", "src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Domain/"]
+COPY ["src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Infrastructure/EFM.Inventory.Infrastructure.csproj", "src/api/EFM.BoundedContext/Inventory/EFM.Inventory.Infrastructure/"]
+COPY ["src/api/EFM.Common/EFM.Common.Infrastructure/EFM.Common.Infrastructure.csproj", "src/api/EFM.Common/EFM.Common.Infrastructure/"]
+COPY ["src/api/EFM.BoundedContext/Inventory/EFM.Inventory.PublicApi/EFM.Inventory.PublicApi.csproj", "src/api/EFM.BoundedContext/Inventory/EFM.Inventory.PublicApi/"]
+COPY ["src/api/EFM.BoundedContext/Products/EFM.Products.Api/EFM.Products.Api.csproj", "src/api/EFM.BoundedContext/Products/EFM.Products.Api/"]
+COPY ["src/api/EFM.BoundedContext/Products/EFM.Products.Application/EFM.Products.Application.csproj", "src/api/EFM.BoundedContext/Products/EFM.Products.Application/"]
+COPY ["src/api/EFM.BoundedContext/Products/EFM.Products.Domain/EFM.Products.Domain.csproj", "src/api/EFM.BoundedContext/Products/EFM.Products.Domain/"]
+COPY ["src/api/EFM.BoundedContext/Products/EFM.Products.Infrastructure/EFM.Products.Infrastructure.csproj", "src/api/EFM.BoundedContext/Products/EFM.Products.Infrastructure/"]
+RUN dotnet restore "./src/api/EFM.Api/EFM.Api.csproj"
 COPY . .
-WORKDIR "/src/src/EFM.Api"
+WORKDIR "/src/src/api/EFM.Api"
 RUN dotnet build "./EFM.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
