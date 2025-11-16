@@ -1,6 +1,7 @@
 ﻿using EFM.Common.Domain.Abstractions;
 using EFM.Products.Api.Factories;
 using EFM.Products.Api.Factories.Abstractions;
+using EFM.Products.Application.Abstractions.Repositories;
 using EFM.Products.Infrastructure.Database;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,7 @@ public static class DependencyExtension
     {
         services.AddScoped<IGetPagedProductsFactory, GetPagedProductsFactory>();
         services.AddScoped<IGetProductByIdFactory, GetProductByIdFactory>();
-        services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ProductDbContext>());
+        services.AddScoped<IProductUnitOfWork>(provider => provider.GetRequiredService<ProductDbContext>());
         return services;
     }
 }

@@ -9,12 +9,12 @@ public class AddInventoryItemCommandHandler : ICommandHandler<AddInventoryItemCo
 {
     private readonly IInventoryItemRepository _inventoryItemRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IInventoryUnitOfWork _unitOfWork;
 
     public AddInventoryItemCommandHandler(
         IInventoryItemRepository inventoryItemRepository, 
         IDateTimeProvider dateTimeProvider,
-        IUnitOfWork unitOfWork)
+        IInventoryUnitOfWork unitOfWork)
     {
         _inventoryItemRepository = inventoryItemRepository;
         _dateTimeProvider = dateTimeProvider;

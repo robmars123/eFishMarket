@@ -1,4 +1,5 @@
 ﻿using EFM.Common.Domain.Abstractions;
+using EFM.Inventory.Application.Abstractions.Repositories;
 using EFM.Inventory.Infrastructure.Database;
 using EFM.Inventory.Infrastructure.PublicApi;
 using EFM.Inventory.PublicApi;
@@ -11,7 +12,7 @@ public static class DependencyExtension
     {
         //services.AddScoped<IGetPagedProductsFactory, GetPagedProductsFactory>();
         //services.AddScoped<IGetProductByIdFactory, GetProductByIdFactory>();
-        services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<InventoryDbContext>());
+        services.AddScoped<IInventoryUnitOfWork>(provider => provider.GetRequiredService<InventoryDbContext>());
 
         services.AddScoped<IInventoryApi, InventoryApi>();
         return services;

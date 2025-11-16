@@ -8,46 +8,47 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EFM.Products.Infrastructure.Migrations;
-
-[DbContext(typeof(ProductDbContext))]
-partial class ProductDbContextModelSnapshot : ModelSnapshot
+namespace EFM.Products.Infrastructure.Migrations
 {
-    protected override void BuildModel(ModelBuilder modelBuilder)
+    [DbContext(typeof(ProductDbContext))]
+    partial class ProductDbContextModelSnapshot : ModelSnapshot
     {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
 #pragma warning disable 612, 618
-        modelBuilder
-            .HasDefaultSchema("Products")
-            .HasAnnotation("ProductVersion", "9.0.10")
-            .HasAnnotation("Relational:MaxIdentifierLength", 128);
+            modelBuilder
+                .HasDefaultSchema("Products")
+                .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-        SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-        modelBuilder.Entity("EFM.Products.Domain.Products.Product", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("uniqueidentifier")
-                    .HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity("EFM.Products.Domain.Products.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
-                b.Property<DateTime>("CreatedDate")
-                    .HasColumnType("datetime2");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                b.Property<bool>("IsDeleted")
-                    .HasColumnType("bit");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(200)
-                    .HasColumnType("nvarchar(200)");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                b.Property<decimal>("UnitPrice")
-                    .HasColumnType("decimal(18,4)");
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,4)");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.ToTable("Product", "Products");
-            });
+                    b.ToTable("Product", "Products");
+                });
 #pragma warning restore 612, 618
+        }
     }
 }

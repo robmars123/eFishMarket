@@ -1,4 +1,5 @@
-﻿using EFM.Inventory.Domain.InventoryItems;
+﻿using EFM.Common.Domain.Abstractions;
+using EFM.Inventory.Domain.InventoryItems;
 
 namespace EFM.Inventory.Application.Abstractions.Repositories;
 

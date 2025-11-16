@@ -98,9 +98,9 @@
 Migrations:
 
 --Products Module
-1. dotnet ef migrations add AddProducts --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context ProductDbContext
-2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context ProductDbContext
+1. dotnet ef migrations add AddProducts --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api" --context ProductDbContext
+2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.BoundedContext\Products\EFM.Products.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api" --context ProductDbContext
 
 --Inventory Module
-1. dotnet ef migrations add AddInventory --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context InventoryDbContext
-2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\EFM.Api" --context InventoryDbContext
+1. dotnet ef migrations add AddInventory --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api" --context InventoryDbContext
+2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api" --context InventoryDbContext

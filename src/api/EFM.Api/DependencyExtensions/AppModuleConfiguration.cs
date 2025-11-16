@@ -24,6 +24,8 @@ internal static class AppModuleConfiguration
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = string.Empty;
             });
+
+           // app.ApplyMigrations();
         }
 
         app.UseCors("AllowAnyClient");
@@ -40,7 +42,8 @@ internal static class AppModuleConfiguration
                 policy.WithOrigins(
                     "http://localhost:4200",
                     "http://localhost:8080",
-                    "http://localhost:5000"
+                    "http://localhost:5000",
+                    "https://localhost:7185"
                 )
                 .AllowAnyHeader()
                 .AllowAnyMethod()

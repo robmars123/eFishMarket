@@ -2,14 +2,15 @@
 using EFM.Products.Domain.Products;
 using EFM.Common.Application.Commands;
 using EFM.Common.Domain.Abstractions;
+using EFM.Products.Application.Abstractions.Repositories;
 
 namespace EFM.Products.Application.Products.UpdateProduct;
 public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 {
     private readonly IProductRepository _productRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IProductUnitOfWork _unitOfWork;
 
-    public UpdateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+    public UpdateProductCommandHandler(IProductRepository productRepository, IProductUnitOfWork unitOfWork)
     {
         _productRepository = productRepository;
         _unitOfWork = unitOfWork;

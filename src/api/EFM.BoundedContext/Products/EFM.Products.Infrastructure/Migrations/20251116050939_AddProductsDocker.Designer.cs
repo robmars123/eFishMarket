@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFM.Products.Infrastructure.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20251108034438_AddProducts")]
-    partial class AddProducts
+    [Migration("20251116050939_AddProductsDocker")]
+    partial class AddProductsDocker
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

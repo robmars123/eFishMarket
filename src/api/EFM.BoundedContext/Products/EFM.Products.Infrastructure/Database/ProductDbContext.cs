@@ -1,17 +1,18 @@
 ﻿using EFM.Products.Domain.Products;
 using EFM.Common.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using EFM.Products.Application.Abstractions.Repositories;
 
 namespace EFM.Products.Infrastructure.Database;
 
-public sealed class ProductDbContext : DbContext, IUnitOfWork
+public sealed class ProductDbContext : DbContext, IProductUnitOfWork
 {
     public ProductDbContext(DbContextOptions<ProductDbContext> options)
         : base(options)
     {
     }
     private const string schema = "Products";
-    internal DbSet<Product> Products { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,4 +1,5 @@
-﻿using EFM.Common.Infrastructure.Configurations;
+﻿using EFM.Common.Application;
+using EFM.Common.Infrastructure.Configurations;
 using EFM.Inventory.Api;
 using EFM.Products.Api;
 
@@ -16,6 +17,7 @@ internal static class ServiceDependencyBootstrapper
         #endregion
 
         #region Common Dependencies
+        builder.Services.AddApplicationConfiguration();
         builder.Services.AddInfrastructureConfiguration();
         #endregion
     }

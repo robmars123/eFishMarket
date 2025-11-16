@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace EFM.Products.Infrastructure.Migrations;
 
 /// <inheritdoc />
-public partial class AddProducts : Migration
+public partial class AddProductsDocker : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)

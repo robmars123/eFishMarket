@@ -1,17 +1,18 @@
 ﻿using EFM.Common.Domain.Abstractions;
+using EFM.Inventory.Application.Abstractions.Repositories;
 using EFM.Inventory.Domain.InventoryItems;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFM.Inventory.Infrastructure.Database;
 
-public sealed class InventoryDbContext : DbContext, IUnitOfWork
+public sealed class InventoryDbContext : DbContext, IInventoryUnitOfWork
 {
     public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
         : base(options)
     {
     }
     private const string schema = "InventoryItems";
-    internal DbSet<InventoryItem> InventoryItems { get; set; }
+    public DbSet<InventoryItem> InventoryItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
