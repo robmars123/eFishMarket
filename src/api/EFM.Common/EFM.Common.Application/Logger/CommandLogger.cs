@@ -1,6 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 
 namespace EFM.Common.Application.Logger;
+
+/// <summary>
+/// Provides logging functionality for processing commands of type <typeparamref name="TCommand"/>.
+/// </summary>
+/// <remarks>This class logs the start, completion, and any exceptions that occur during the processing of a
+/// command. It is designed to work with commands that are associated with a specific module, where the module name is
+/// derived from the fully qualified name of the command type.</remarks>
+/// <typeparam name="TCommand">The type of the command being processed. Must be a reference type.</typeparam>
 public sealed class CommandLogger<TCommand>
     where TCommand : class
 {
@@ -30,5 +38,10 @@ public sealed class CommandLogger<TCommand>
         }
     }
 
+    /// <summary>
+    /// Extracts the module name from the specified request name.
+    /// </summary>
+    /// <param name="requestName">The fully qualified request name, expected to be in a dot-separated format.</param>
+    /// <returns>The module name, which is the third segment of the dot-separated request name.</returns>
     private static string GetModuleName(string requestName) => requestName.Split('.')[2];
 }

@@ -9,6 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace EFM.Common.Infrastructure.Configurations;
+
+/// <summary>
+/// Extension methods to add infrastructure services to the IServiceCollection
+/// </summary>
 public static class InfrastructureConfiguration
 {
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services)

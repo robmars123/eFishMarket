@@ -9,6 +9,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EFM.Common.Infrastructure.Mediator;
 
+/// <summary>
+/// Provides a mechanism for dispatching commands, queries, and events to their respective handlers.
+/// </summary>
+/// <remarks>The <see cref="Dispatcher"/> class acts as a mediator, resolving and invoking the appropriate
+/// handlers for commands, queries, and events. It supports the following operations: <list type="bullet">
+/// <item><description>Sending commands to a single command handler.</description></item> <item><description>Sending
+/// queries or requests to a single request handler and returning a result.</description></item>
+/// <item><description>Publishing events to multiple event handlers.</description></item> </list> This class relies on
+/// dependency injection to resolve handlers and loggers for the dispatched operations.</remarks>
 public class Dispatcher : IDispatcher
 {
     private readonly IServiceProvider _serviceProvider;
@@ -41,8 +50,8 @@ public class Dispatcher : IDispatcher
     // Event: multiple subscribers
     public async Task Publish<TEvent>(TEvent @event) where TEvent : IDomainEvent
     {
-        IEnumerable<IEventHandler<TEvent>> handlers = _serviceProvider.GetServices<IEventHandler<TEvent>>();
-        foreach (IEventHandler<TEvent> handler in handlers)
+        IEnumerable<IDomainEventHandler<TEvent>> handlers = _serviceProvider.GetServices<IDomainEventHandler<TEvent>>();
+        foreach (IDomainEventHandler<TEvent> handler in handlers)
         {
             await handler.Handle(@event);
         }

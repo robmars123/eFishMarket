@@ -1,4 +1,12 @@
 ﻿namespace EFM.Common.Application.Results;
+
+/// <summary>
+/// Represents the outcome of an operation, encapsulating success or failure information.
+/// </summary>
+/// <remarks>The <see cref="Result"/> class provides a way to represent the result of an operation, indicating
+/// whether it succeeded or failed. For a successful result, <see cref="IsSuccess"/> will be <see langword="true"/> and
+/// <see cref="Error"/> will be an empty string. For a failed result, <see cref="IsSuccess"/> will be <see
+/// langword="false"/> and <see cref="Error"/> will contain a descriptive error message.</remarks>
 public class Result
 {
     public bool IsSuccess { get; }
