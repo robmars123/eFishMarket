@@ -3,7 +3,7 @@ using EFM.Common.Application.Queries;
 using EFM.Common.Application.Results;
 
 namespace EFM.Products.Application.Products.GetPagedProducts;
-public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuery, PagedResult<GetPagedProductsResponse>>
+public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuery, PagedResponse<GetPagedProductsResponse>>
 {
     private readonly IReadOnlyProductRepository _productRepository;
 
@@ -11,10 +11,10 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
     {
         _productRepository = productRepository;
     }
-    public async Task<PagedResult<GetPagedProductsResponse>> Handle(GetPagedProductsQuery query, CancellationToken cancellationToken)
+    public async Task<PagedResponse<GetPagedProductsResponse>> Handle(GetPagedProductsQuery query, CancellationToken cancellationToken)
     {
         //todo: add logging & caching if needed
-        PagedResult<GetPagedProductsResponse> pagedProducts = await _productRepository.GetProducts(query, cancellationToken);
+        PagedResponse<GetPagedProductsResponse> pagedProducts = await _productRepository.GetProducts(query, cancellationToken);
         return pagedProducts;
     }
 }

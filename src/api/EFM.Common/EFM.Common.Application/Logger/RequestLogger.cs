@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EFM.Common.Application.Logger;
 
-internal sealed class RequestLogger<TRequest, TResponse>
+public sealed class RequestLogger<TRequest, TResponse>
     where TRequest : class
     where TResponse : Result
 {
@@ -22,18 +22,26 @@ internal sealed class RequestLogger<TRequest, TResponse>
 
         _logger.LogInformation("Processing request {RequestName} in module {Module}", requestName, moduleName);
 
-        TResponse result = await handler();
-
-        if (result.IsSuccess)
+        try
         {
-            _logger.LogInformation("Completed request {RequestName}", requestName);
-        }
-        else
-        {
-            _logger.LogError("Completed request {RequestName} with error: {Error}", requestName, result.Error);
-        }
+            TResponse result = await handler();
 
-        return result;
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("Completed request {RequestName}", requestName);
+            }
+            else
+            {
+                _logger.LogError("Completed request {RequestName} with error: {Error}", requestName, result.Error);
+            }
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Request {RequestName} in module {Module} failed with exception", requestName, moduleName);
+            throw; // rethrow so upstream middleware can handle it
+        }
     }
 
     private static string GetModuleName(string requestName) => requestName.Split('.')[2];

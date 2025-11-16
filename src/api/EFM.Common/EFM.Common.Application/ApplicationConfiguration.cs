@@ -9,6 +9,7 @@ public static class ApplicationConfiguration
         this IServiceCollection services)
     {
         services.AddTransient(typeof(RequestLogger<,>));
+        services.AddTransient(typeof(CommandLogger<>));
 
         return services;
     }

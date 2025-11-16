@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using EFM.Common.Application.Commands;
+﻿using EFM.Common.Application.Commands;
 using EFM.Common.Application.Events;
+using EFM.Common.Application.Logger;
 using EFM.Common.Application.Mediator;
 using EFM.Common.Application.Queries;
+using EFM.Common.Application.Results;
 using EFM.Common.Domain.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EFM.Common.Infrastructure.Mediator;
 
@@ -18,18 +20,22 @@ public class Dispatcher : IDispatcher
 
     // Command: single handler
     public async Task Send<TCommand>(TCommand command, CancellationToken cancellationToken = default)
-        where TCommand : ICommand
+        where TCommand : class, ICommand
     {
         ICommandHandler<TCommand> handler = _serviceProvider.GetRequiredService<ICommandHandler<TCommand>>();
-        await handler.Handle(command, cancellationToken);
+        CommandLogger<TCommand> logger = _serviceProvider.GetRequiredService<CommandLogger<TCommand>>();
+        await logger.Handle(() => handler.Handle(command, cancellationToken));
     }
 
     // Query/Request: single handler returning a result
     public async Task<TResult> Send<TRequest, TResult>(TRequest request, CancellationToken cancellationToken = default)
-        where TRequest : IRequest<TResult>
+            where TRequest : class, IRequest<TResult>
+            where TResult : Result
     {
         IRequestHandler<TRequest, TResult> handler = _serviceProvider.GetRequiredService<IRequestHandler<TRequest, TResult>>();
-        return await handler.Handle(request, cancellationToken);
+        RequestLogger<TRequest, TResult> logger = _serviceProvider.GetRequiredService<RequestLogger<TRequest, TResult>>();
+
+        return await logger.Handle(() => handler.Handle(request, cancellationToken));
     }
 
     // Event: multiple subscribers

@@ -22,13 +22,13 @@ public class ReadOnlyProductRepository : BaseRepository<Product, ProductDbContex
         GetProductByIdResponse? product = await _dbContext.Products
             .AsNoTracking()
             .Where(p => p.Id == id && !p.IsDeleted)
-            .Select(p => new GetProductByIdResponse(p.Id, p.Name, p.UnitPrice))
+            .Select(p => new GetProductByIdResponse(true, null, p.Id, p.Name, p.UnitPrice))
             .FirstOrDefaultAsync(cancellationToken);
 
         return product;
     }
 
-    public async Task<PagedResult<GetPagedProductsResponse>> GetProducts(GetPagedProductsQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResponse<GetPagedProductsResponse>> GetProducts(GetPagedProductsQuery request, CancellationToken cancellationToken)
     {
         using var connection = new SqlConnection(_connection);
         await connection.OpenAsync(cancellationToken);
@@ -58,7 +58,7 @@ public class ReadOnlyProductRepository : BaseRepository<Product, ProductDbContex
             .Select(p => new GetPagedProductsResponse(p.Id, p.Name, p.UnitPrice))
             .ToList();
 
-        PagedResult<GetPagedProductsResponse> result = new PagedResult<GetPagedProductsResponse>(responses, totalCount);
+        PagedResponse<GetPagedProductsResponse> result = PagedResponse<GetPagedProductsResponse>.Success(responses, totalCount, request.Page, request.PageSize);
         return result;
     }
 }

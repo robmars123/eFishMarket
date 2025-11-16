@@ -23,11 +23,11 @@ public class GetPagedProductsEndpoint
 
         GetPagedProductsQuery query = new GetPagedProductsQuery(page, pageSize);
 
-        PagedResult<GetPagedProductsResponse> result = await dispatcher.Send<GetPagedProductsQuery, PagedResult<GetPagedProductsResponse>>(query, cancellationToken);
+        PagedResponse<GetPagedProductsResponse> result = await dispatcher.Send<GetPagedProductsQuery, PagedResponse<GetPagedProductsResponse>>(query, cancellationToken);
 
         List<ProductResponse> items = factory.Create(result.Items).ToList();
 
-        PagedResponse<ProductResponse> response = new PagedResponse<ProductResponse>(
+        PagedResponse<ProductResponse> response = PagedResponse<ProductResponse>.Success(
                         items,
                         result.TotalCount,
                         page,
