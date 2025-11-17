@@ -14,19 +14,16 @@ public class AddProductCommandHandler : ICommandHandler<AddProductCommand>
     private readonly IInventoryApi _inventoryApi;
     private readonly IProductUnitOfWork _unitOfWork;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly ILogger<AddProductCommandHandler> _logger;
 
     public AddProductCommandHandler(IProductRepository productRepository,
         IInventoryApi inventoryApi,
         IProductUnitOfWork unitOfWork,
-        IDateTimeProvider dateTimeProvider,
-        ILogger<AddProductCommandHandler> logger)
+        IDateTimeProvider dateTimeProvider)
     {
         _productRepository = productRepository;
         _inventoryApi = inventoryApi;
         _unitOfWork = unitOfWork;
         _dateTimeProvider = dateTimeProvider;
-        _logger = logger;
     }
     public async Task Handle(AddProductCommand command, CancellationToken cancellationToken)
     {
@@ -34,12 +31,9 @@ public class AddProductCommandHandler : ICommandHandler<AddProductCommand>
         Product product = Product.Create(command.Name, command.Price, _dateTimeProvider.UtcNow);
 
         await _productRepository.AddProductAsync(product, cancellationToken);
-        //_logger.LogInformation("Product {ProductId} persisted to repository", product.Id);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        //_logger.LogInformation("UnitOfWork committed for Product {ProductId}", product.Id);
 
         await _inventoryApi.AddInventoryItem(product.Id, cancellationToken);
-        //_logger.LogInformation("Inventory item created for Product {ProductId}", product.Id);
     }
 }

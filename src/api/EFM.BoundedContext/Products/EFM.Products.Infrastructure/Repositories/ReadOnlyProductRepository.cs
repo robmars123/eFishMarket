@@ -19,10 +19,12 @@ public class ReadOnlyProductRepository : BaseRepository<Product, ProductDbContex
     }
     public async Task<GetProductByIdResponse> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
     {
+        Error noneError = Error.None;
+
         GetProductByIdResponse? product = await _dbContext.Products
             .AsNoTracking()
             .Where(p => p.Id == id && !p.IsDeleted)
-            .Select(p => new GetProductByIdResponse(true, null, p.Id, p.Name, p.UnitPrice))
+            .Select(p => new GetProductByIdResponse(true, noneError, p.Id, p.Name, p.UnitPrice))
             .FirstOrDefaultAsync(cancellationToken);
 
         return product;

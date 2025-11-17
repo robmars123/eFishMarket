@@ -1,4 +1,7 @@
-﻿namespace EFM.Common.Application.Results;
+﻿using System.Diagnostics.CodeAnalysis;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace EFM.Common.Application.Results;
 
 /// <summary>
 /// Represents the outcome of an operation, encapsulating success or failure information.
@@ -9,32 +12,55 @@
 /// langword="false"/> and <see cref="Error"/> will contain a descriptive error message.</remarks>
 public class Result
 {
-    public bool IsSuccess { get; }
-    public string Error { get; }
-
-    protected Result(bool isSuccess, string error)
+    public Result(bool isSuccess, Error error)
     {
+        if (isSuccess && error != Error.None ||
+            !isSuccess && error == Error.None)
+        {
+            throw new ArgumentException("Invalid error", nameof(error));
+        }
+
         IsSuccess = isSuccess;
         Error = error;
     }
 
-    public static Result Success() => new Result(true, string.Empty);
+    public bool IsSuccess { get; }
 
-    public static Result Failure(string error) => new Result(false, error);
+    public bool IsFailure => !IsSuccess;
+
+    public Error Error { get; }
+
+    public static Result Success() => new(true, Error.None);
+
+    public static Result<TValue> Success<TValue>(TValue value) =>
+        new(value, true, Error.None);
+
+    public static Result Failure(Error error) => new(false, error);
+
+    public static Result<TValue> Failure<TValue>(Error error) =>
+        new(default, false, error);
 }
 
-public class Result<T> : Result
+public class Result<TValue> : Result
 {
-    public T Value { get; }
+    private readonly TValue? _value;
 
-    private Result(T value, bool isSuccess, string error)
+    public Result(TValue? value, bool isSuccess, Error error)
         : base(isSuccess, error)
     {
-        Value = value;
+        _value = value;
     }
 
-    public static Result<T> Success(T value) => new Result<T>(value, true, string.Empty);
+    [NotNull]
+    public TValue Value => IsSuccess
+        ? _value!
+        : throw new InvalidOperationException("The value of a failure result can't be accessed.");
 
-    public static new Result<T> Failure(string error) => new Result<T>(default!, false, error);
+    public static implicit operator Result<TValue>(TValue? value) =>
+        value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
+
+    public static Result<TValue> ValidationFailure(Error error) =>
+        new(default, false, error);
 }
+
 
