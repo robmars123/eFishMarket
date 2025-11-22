@@ -15,10 +15,5 @@
 	  <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	</ItemGroup>
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
 
 </Project>

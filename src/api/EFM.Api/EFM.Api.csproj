@@ -1,41 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
+  <ItemGroup>
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>386ee080-9a4c-461e-8ec5-bc5b5cd96fe5</UserSecretsId>
-		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
-		<DockerfileContext>..\..\..</DockerfileContext>
-	</PropertyGroup>
+  <PropertyGroup>
+	<UserSecretsId>386ee080-9a4c-461e-8ec5-bc5b5cd96fe5</UserSecretsId>
+	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+	<DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-		<PackageReference Include="Scrutor" Version="6.1.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-		<PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-	</ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+	<PackageReference Include="Scrutor" Version="6.1.0" />
+	<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+	<PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<EditorConfigFiles Remove="D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api\.editorconfig" />
-	</ItemGroup>
+  <ItemGroup>
+	<EditorConfigFiles Remove="D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api\.editorconfig" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\EFM.BoundedContext\Inventory\EFM.Inventory.Api\EFM.Inventory.Api.csproj" />
-		<ProjectReference Include="..\EFM.BoundedContext\Products\EFM.Products.Api\EFM.Products.Api.csproj" />
-		<ProjectReference Include="..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+	<ProjectReference Include="..\EFM.BoundedContext\Inventory\EFM.Inventory.Api\EFM.Inventory.Api.csproj" />
+	<ProjectReference Include="..\EFM.BoundedContext\Products\EFM.Products.Api\EFM.Products.Api.csproj" />
+	<ProjectReference Include="..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
+  </ItemGroup>
 
 </Project>
