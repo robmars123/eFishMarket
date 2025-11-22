@@ -1,4 +1,5 @@
 ﻿using EFM.Products.Api.Endpoints.Create;
+using EFM.Products.Api.Endpoints.Delete;
 using EFM.Products.Api.Endpoints.GetAll;
 using EFM.Products.Api.Endpoints.GetById;
 using EFM.Products.Api.Endpoints.Update;
@@ -14,6 +15,7 @@ public static class EndpointRouteBuilderExtensions
         endpoints.MapGet("/api/getProductById", GetByIdEndpoint.GetProductById);
         endpoints.MapPost("/api/createProduct", AddProductEndpoint.CreateProduct);
         endpoints.MapPut("/api/updateProduct", UpdateProductEndpoint.UpdateProduct);
+        endpoints.MapDelete("/api/deleteProduct", RemoveProductByIdEndpoint.RemoveProduct);
         return endpoints;
     }
 }
