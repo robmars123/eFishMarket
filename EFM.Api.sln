@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36616.10
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11217.181 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -59,9 +59,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFM.Common.Infrastructure",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EFM.AppHost", "EFM.AppHost", "{D8BB19AC-FE2B-4320-9484-05CB32071078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFM.AppHost", "src\api\EFM.AppHost\WFM.AppHost.csproj", "{F92F9F45-4073-79B2-8C0E-4FD908BAE0FC}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFM.AppHost", "src\api\EFM.AppHost\EFM.AppHost.csproj", "{98D586BA-184A-1738-2120-794B3321D4C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,14 +137,14 @@ Global
 		{D4272769-C579-6C77-62F4-146F03EBA995}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4272769-C579-6C77-62F4-146F03EBA995}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4272769-C579-6C77-62F4-146F03EBA995}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F92F9F45-4073-79B2-8C0E-4FD908BAE0FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F92F9F45-4073-79B2-8C0E-4FD908BAE0FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F92F9F45-4073-79B2-8C0E-4FD908BAE0FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F92F9F45-4073-79B2-8C0E-4FD908BAE0FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98D586BA-184A-1738-2120-794B3321D4C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98D586BA-184A-1738-2120-794B3321D4C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98D586BA-184A-1738-2120-794B3321D4C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98D586BA-184A-1738-2120-794B3321D4C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,7 +174,7 @@ Global
 		{7CC3DDB2-670B-3B59-00DF-7D0F17858EC3} = {3742A77B-655F-4374-B604-2804F882DEC9}
 		{D4272769-C579-6C77-62F4-146F03EBA995} = {3742A77B-655F-4374-B604-2804F882DEC9}
 		{D8BB19AC-FE2B-4320-9484-05CB32071078} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{F92F9F45-4073-79B2-8C0E-4FD908BAE0FC} = {D8BB19AC-FE2B-4320-9484-05CB32071078}
+		{98D586BA-184A-1738-2120-794B3321D4C2} = {D8BB19AC-FE2B-4320-9484-05CB32071078}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A4B40084-5DE4-446F-B5B8-33AA5EEA2F41}

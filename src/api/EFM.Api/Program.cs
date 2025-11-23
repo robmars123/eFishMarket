@@ -1,5 +1,6 @@
 using EFM.Api.DependencyExtensions;
 using EFM.Common.Infrastructure.Logging;
+using Microsoft.Extensions.FileProviders;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,16 @@ builder.Host.UseSerilog();
 builder.AddDependencyExtensions();
 
 WebApplication app = builder.Build();
+
+// Serve React build
+app.UseDefaultFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../src/client/dist"))),
+    RequestPath = ""
+});
+app.MapFallbackToFile("index.html");
 
 app.AppConfig();
 

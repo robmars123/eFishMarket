@@ -19,4 +19,8 @@
     <ProjectReference Include="..\EFM.BoundedContext\Products\EFM.Products.Api\EFM.Products.Api.csproj" />
   </ItemGroup>
 
+  <Target Name="CopyReactBuild" AfterTargets="Build">
+	<Copy SourceFiles="@(ReactFiles)" DestinationFolder="$(ProjectDir)client-build" />
+  </Target>
+
 </Project>
