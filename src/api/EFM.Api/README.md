@@ -104,3 +104,6 @@ Migrations:
 --Inventory Module
 1. dotnet ef migrations add AddInventory --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api" --context InventoryDbContext
 2. dotnet ef database update --project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.BoundedContext\Inventory\EFM.Inventory.Infrastructure" --startup-project "D:\Projects\Modular Monolith - Azure\eFishMarket\src\api\EFM.Api" --context InventoryDbContext
+
+--Client Side Build - ReactClient
+1. npm run build
