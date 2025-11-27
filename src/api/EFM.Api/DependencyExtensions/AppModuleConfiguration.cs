@@ -25,7 +25,7 @@ internal static class AppModuleConfiguration
                 c.RoutePrefix = string.Empty;
             });
 
-           // app.ApplyMigrations();
+            app.ApplyMigrations();
         }
 
         app.UseCors("AllowAnyClient");
@@ -44,8 +44,8 @@ internal static class AppModuleConfiguration
                     "http://localhost:8080",
                     "http://localhost:5000",
                     "https://localhost:7185",
-                    "http://localhost:5173",
-                    "http://localhost:5174"
+                    "http://localhost:5173", //react dev
+                    "http://localhost:5174" //react dev
                 )
                 .AllowAnyHeader()
                 .AllowAnyMethod()

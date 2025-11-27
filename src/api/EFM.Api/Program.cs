@@ -15,13 +15,7 @@ WebApplication app = builder.Build();
 
 // Serve React build
 app.UseDefaultFiles();
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../src/client/dist"))),
-    RequestPath = ""
-});
-app.MapFallbackToFile("index.html");
+app.UseStaticFiles();
 
 app.AppConfig();
 

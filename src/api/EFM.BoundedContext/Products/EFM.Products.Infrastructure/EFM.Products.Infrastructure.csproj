@@ -15,5 +15,8 @@
 	  <ProjectReference Include="..\..\..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
 	  <ProjectReference Include="..\EFM.Products.Application\EFM.Products.Application.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
 
 </Project>

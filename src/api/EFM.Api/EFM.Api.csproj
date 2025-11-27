@@ -35,4 +35,8 @@
 	<ProjectReference Include="..\EFM.Common\EFM.Common.Infrastructure\EFM.Common.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
