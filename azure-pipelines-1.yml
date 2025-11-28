@@ -1,6 +1,7 @@
 trigger:
   branches:
-    include: [ master ]
+    include:
+      - master
 
 pool: default
 
@@ -22,17 +23,32 @@ stages:
         packageType: 'sdk'
         version: $(DOTNET_CORE_VERSION)
 
+    # Restore (important)
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore'
+      inputs:
+        command: 'restore'
+        projects: '$(WORKING_DIRECTORY)/**/*.csproj'
+
+    # Build (no --no-restore so it uses restored assets)
+    - task: DotNetCoreCLI@2
+      displayName: 'Build'
+      inputs:
+        command: 'build'
+        projects: '$(WORKING_DIRECTORY)/**/*.csproj'
+        arguments: '--configuration $(CONFIGURATION)'
+
     - task: DotNetCoreCLI@2
       displayName: 'Publish'
       inputs:
         command: 'publish'
-        projects: '$(WORKING_DIRECTORY)'
-        arguments: '--configuration $(CONFIGURATION) --no-build --output "$(Build.ArtifactStagingDirectory)"'
+        projects: '$(WORKING_DIRECTORY)/**/*.csproj'
+        arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)"'
 
     - task: ArchiveFiles@2
       displayName: 'Zip publish contents'
       inputs:
-        rootFolderOrFile: '"$(Build.ArtifactStagingDirectory)/*"'
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/*'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
