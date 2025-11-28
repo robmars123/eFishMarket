@@ -46,7 +46,7 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)'
-        arguments: '--configuration $(CONFIGURATION) --no-build --output $(Build.ArtifactStagingDirectory)'
+        arguments: '--configuration $(CONFIGURATION) --no-build --output "$(Build.ArtifactStagingDirectory)"'
 
     - task: PublishBuildArtifacts@1
       inputs:
