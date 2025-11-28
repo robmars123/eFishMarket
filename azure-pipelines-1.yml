@@ -8,7 +8,7 @@ pool: default
 variables:
   AZURE_WEBAPP_NAME: 'efm-onlineshop'
   CONFIGURATION: 'Release'
-  DOTNET_CORE_VERSION: '6.0.x'   # 👈 use a supported SDK (adjust if your project targets 8.0)
+  DOTNET_CORE_VERSION: '10.0.x'    # 👈 use a supported SDK (adjust if your project targets 8.0)
   WORKING_DIRECTORY: 'src/api/EFM.Api'
 
 stages:
