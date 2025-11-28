@@ -53,7 +53,7 @@ stages:
       displayName: 'Archive publish output'
       inputs:
         rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-        includeRootFolder: false
+        includeRootFolder: false   # 👈 ensures files are at root of zip
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/EFM.Api.zip'
         replaceExistingArchive: true
