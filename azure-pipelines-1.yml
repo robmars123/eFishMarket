@@ -46,7 +46,7 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)'
-        arguments: '--configuration $(CONFIGURATION) --no-build --output $(Build.ArtifactStagingDirectory)'
+        arguments: '--configuration $(CONFIGURATION) --no-build --output "$(Build.ArtifactStagingDirectory)"'
 
     # Archive published output into a zip
     - task: ArchiveFiles@2
