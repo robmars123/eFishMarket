@@ -68,7 +68,8 @@ stages:
     - task: AzureWebApp@1
       displayName: 'Deploy to Azure WebApp'
       inputs:
-        azureSubscription: 'AzureSP-efm-onlineshop2'   # 👈 your service connection name
-        appName: '$(AZURE_WEBAPP_NAME)'               # 👈 App Service name
-        package: '$(AZURE_WEBAPP_PACKAGE_PATH)'       # 👈 published output path
-        appType: 'webApp'                             # 👈 required property
+        azureSubscription: 'AzureSP-efm-onlineshop2'       # 👈 your service connection name
+        appName: '$(AZURE_WEBAPP_NAME)'                    # 👈 App Service name
+        package: '$(Pipeline.Workspace)/webapp/EFM.Api.zip' # 👈 point directly to the zip file
+        appType: 'webApp'                                  # 👈 required property
+
