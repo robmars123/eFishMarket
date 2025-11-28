@@ -3,11 +3,11 @@ trigger:
     include:
       - master
 
-pool: default
+pool:
+  vmImage: 'windows-latest'   # use Microsoft-hosted agent unless you’re running self-hosted
 
 variables:
   AZURE_WEBAPP_NAME: 'efm-onlineshop'
-  AZURE_WEBAPP_PACKAGE_PATH: 'src/api/EFM.Api/publish'
   CONFIGURATION: 'Release'
   DOTNET_CORE_VERSION: '10.0.x'
   WORKING_DIRECTORY: 'src/api/EFM.Api'
@@ -47,11 +47,11 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)'
-        arguments: '--configuration $(CONFIGURATION) --no-build --output $(AZURE_WEBAPP_PACKAGE_PATH)'
+        arguments: '--configuration $(CONFIGURATION) --no-build --output $(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(AZURE_WEBAPP_PACKAGE_PATH)'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
@@ -63,13 +63,12 @@ stages:
     - task: DownloadBuildArtifacts@0
       inputs:
         artifactName: 'webapp'
-        downloadPath: '$(AZURE_WEBAPP_PACKAGE_PATH)'
+        downloadPath: '$(Pipeline.Workspace)'
 
     - task: AzureWebApp@1
       displayName: 'Deploy to Azure WebApp'
       inputs:
-        azureSubscription: 'AzureSP-efm-onlineshop2'
-        appName: '$(AZURE_WEBAPP_NAME)'
-        package: '$(Pipeline.Workspace)/webapp'   # 👈 deploy the folder
+        azureSubscription: 'AzureSP-efm-onlineshop2'   # your service connection name
+        appName: '$(AZURE_WEBAPP_NAME)'               # App Service name
+        package: '$(Pipeline.Workspace)/webapp'       # deploy the folder
         appType: 'webApp'
-
