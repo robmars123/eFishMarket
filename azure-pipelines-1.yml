@@ -23,14 +23,12 @@ stages:
         packageType: 'sdk'
         version: $(DOTNET_CORE_VERSION)
 
-    # Restore (important)
     - task: DotNetCoreCLI@2
       displayName: 'Restore'
       inputs:
         command: 'restore'
         projects: '$(WORKING_DIRECTORY)/**/*.csproj'
 
-    # Build (no --no-restore so it uses restored assets)
     - task: DotNetCoreCLI@2
       displayName: 'Build'
       inputs:
@@ -45,10 +43,16 @@ stages:
         projects: '$(WORKING_DIRECTORY)/**/*.csproj'
         arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)"'
 
+    - powershell: |
+        Write-Host "Publish folder: $(Build.ArtifactStagingDirectory)"
+        if (-not (Test-Path "$(Build.ArtifactStagingDirectory)")) { Write-Error "Publish folder missing"; exit 1 }
+        Get-ChildItem -Path "$(Build.ArtifactStagingDirectory)" -Recurse | ForEach-Object { Write-Host $_.FullName }
+      displayName: 'List publish output'
+
     - task: ArchiveFiles@2
-      displayName: 'Zip publish contents'
+      displayName: 'Zip publish output'
       inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/*'
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'    # use folder (no wildcard) on Windows agents
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
