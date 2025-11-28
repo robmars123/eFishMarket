@@ -32,7 +32,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Zip publish contents'
       inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/*'
+        rootFolderOrFile: '"$(Build.ArtifactStagingDirectory)/*"'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
