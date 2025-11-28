@@ -1,34 +1,75 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 trigger:
-- master
+  branches:
+    include:
+      - master
 
 pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  AZURE_WEBAPP_NAME: 'efm-onlineshop'
+  AZURE_WEBAPP_PACKAGE_PATH: 'src/api/EFM.Api/publish'
+  CONFIGURATION: 'Release'
+  DOTNET_CORE_VERSION: '10.0.x'
+  WORKING_DIRECTORY: 'src/api/EFM.Api'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: $(DOTNET_CORE_VERSION)
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore'
+      inputs:
+        command: 'restore'
+        projects: '$(WORKING_DIRECTORY)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build'
+      inputs:
+        command: 'build'
+        projects: '$(WORKING_DIRECTORY)'
+        arguments: '--configuration $(CONFIGURATION) --no-restore'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: 'Test'
+      inputs:
+        command: 'test'
+        projects: '$(WORKING_DIRECTORY)'
+        arguments: '--no-build'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish'
+      inputs:
+        command: 'publish'
+        projects: '$(WORKING_DIRECTORY)'
+        arguments: '--configuration $(CONFIGURATION) --no-build --output $(AZURE_WEBAPP_PACKAGE_PATH)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(AZURE_WEBAPP_PACKAGE_PATH)'
+        ArtifactName: 'webapp'
+        publishLocation: 'Container'
+
+- stage: Deploy
+  dependsOn: Build
+  jobs:
+  - job: DeployJob
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        artifactName: 'webapp'
+        downloadPath: '$(AZURE_WEBAPP_PACKAGE_PATH)'
+
+    - task: AzureWebApp@1
+      displayName: 'Deploy to Azure WebApp'
+      inputs:
+        azureSubscription: 'AzureSP-efm-onlineshop2'   # 👈 your service connection name
+        appName: '$(AZURE_WEBAPP_NAME)'               # 👈 App Service name
+        package: '$(AZURE_WEBAPP_PACKAGE_PATH)'       # 👈 published output path
+        appType: 'webApp'                             # 👈 required property
