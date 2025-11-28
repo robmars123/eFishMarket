@@ -8,7 +8,7 @@ pool: default
 variables:
   AZURE_WEBAPP_NAME: 'efm-onlineshop'
   CONFIGURATION: 'Release'
-  DOTNET_CORE_VERSION: '10.0.x'
+  DOTNET_CORE_VERSION: '6.0.x'   # 👈 use a supported SDK (adjust if your project targets 8.0)
   WORKING_DIRECTORY: 'src/api/EFM.Api'
 
 stages:
@@ -46,11 +46,21 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)'
-        arguments: '--configuration $(CONFIGURATION) --no-build --output "$(Build.ArtifactStagingDirectory)"'
+        arguments: '--configuration $(CONFIGURATION) --no-build --output $(Build.ArtifactStagingDirectory)'
+
+    # Archive published output into a zip
+    - task: ArchiveFiles@2
+      displayName: 'Archive publish output'
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/EFM.Api.zip'
+        replaceExistingArchive: true
 
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/EFM.Api.zip'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
@@ -69,5 +79,5 @@ stages:
       inputs:
         azureSubscription: 'AzureSP-efm-onlineshop2'   # your service connection name
         appName: '$(AZURE_WEBAPP_NAME)'               # App Service name
-        package: '$(Pipeline.Workspace)/webapp'       # deploy the folder
+        package: '$(Pipeline.Workspace)/webapp/EFM.Api.zip'  # 👈 deploy the zip
         appType: 'webApp'
