@@ -49,6 +49,7 @@ jobs:
         client-id: ${{ vars.efm_onlineshop_CLIENT_ID_0F86 }}
         tenant-id: ${{ vars.efm_onlineshop_TENANT_ID_0F86 }}
         subscription-id: ${{ vars.efm_onlineshop_SUBSCRIPTION_ID_0F86 }}
+        client-secret: ${{ vars.efm_onlineshop_CLIENT_SECRET_0F86 }}
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
