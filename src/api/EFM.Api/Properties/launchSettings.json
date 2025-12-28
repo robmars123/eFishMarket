@@ -26,7 +26,15 @@
       },
       "publishAllPorts": true,
       "useSSL": true
-    }
+    },
+      "Production": {
+        "commandName": "Project",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Production"
+        },
+        "dotnetRunMessages": true,
+        "applicationUrl": "https://localhost:5001"
+      }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"
 }

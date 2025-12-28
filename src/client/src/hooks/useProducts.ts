@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Product } from "../components/Product";
+import type { Product } from "../components/models/Product";
 import { getPagedProducts } from "../services/productService";
 
 //A custom hook in React is essentially a wrapper around a service

@@ -1,3 +1,5 @@
+name: efm
+
 networks:
       efmnetwork: # Define a custom network for the services to communicate
 
@@ -11,26 +13,26 @@ services:
     ports:
     - "5000:8080"
     - "5001:8081"
-    environment:
+    # environment:
     #   # Connection string points to the sqlserver service name
-       ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=EFM.Database;User Id=sa;Password=Password123!;Encrypt=True;TrustServerCertificate=True"
-    depends_on:
-      - sqlserver
-    networks:
-      - efmnetwork # Use the custom network
+       # ConnectionStrings__DefaultConnection: "Server=TENTON\\DEV,1433;Database=EFM.Database;User Id=sa;Password=Password123!;Encrypt=True;TrustServerCertificate=True"
+    # depends_on:
+    #   - sqlserver
+    # networks:
+    #   - efmnetwork # Use the custom network
 
-  sqlserver: 
-    image: mcr.microsoft.com/mssql/server:2022-latest 
-    container_name: sqlserver_test 
-    environment:
-      ACCEPT_EULA: "Y" 
-      MSSQL_SA_PASSWORD: "Password123!"
-    ports: 
-        - "1433:1433"
-    volumes:
-      - sql-data:/var/opt/mssql
-    networks:
-      - efmnetwork # Use the same network as efm.api
+  # sqlserver: 
+  #   image: mcr.microsoft.com/mssql/server:2022-latest 
+  #   container_name: sqlserver_test 
+  #   environment:
+  #     ACCEPT_EULA: "Y" 
+  #     MSSQL_SA_PASSWORD: "Password123!"
+  #   ports: 
+  #       - "1433:1433"
+  #   volumes:
+  #     - sql-data:/var/opt/mssql
+  #   networks:
+  #     - efmnetwork # Use the same network as efm.api
 
 volumes:
   sql-data:

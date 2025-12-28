@@ -1,4 +1,4 @@
-import type { Product } from "../components/Product";
+import type { Product } from "../components/models/Product";
 
 //Service is used to call external API
 export interface PagedResponse<T> {
@@ -27,3 +27,20 @@ export async function getPagedProducts(
 
   return response.json();
 }
+
+export async function getProductById(
+  id: string,
+  signal?: AbortSignal
+): Promise<Product> {
+  const API_URL = import.meta.env.VITE_API_URL;
+  const url = `${API_URL}/getProductById?id=${id}`;
+
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch product with id ${id}`);
+  }
+
+  return response.json();
+}
+

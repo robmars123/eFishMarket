@@ -11,11 +11,19 @@ builder.Host.UseSerilog();
 
 builder.AddDependencyExtensions();
 
+string environment = builder.Environment.EnvironmentName;
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+Console.WriteLine($"[Startup] ASPNETCORE_ENVIRONMENT: {environment}");
+Console.WriteLine($"[Startup] DefaultConnection: {connectionString}");
+
+
 WebApplication app = builder.Build();
 
 // Serve React build
-app.UseDefaultFiles();
-app.UseStaticFiles();
+//app.UseDefaultFiles();
+//app.UseStaticFiles();
+//app.MapFallbackToFile("index.html");
 
 app.AppConfig();
 
