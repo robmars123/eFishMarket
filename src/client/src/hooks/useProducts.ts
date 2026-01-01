@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../components/models/Product";
 import { getPagedProducts } from "../services/productService";
+import { useApiClient } from "../api/useApiClient";
 
 //A custom hook in React is essentially a wrapper around a service
 //(or any reusable logic) so that your component stays lean and focused on rendering.
 export function useProducts(page: number, pageSize: number) {
+  const client = useApiClient();
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,7 +26,7 @@ export function useProducts(page: number, pageSize: number) {
       try {
         setLoading(true);
         setError(null);
-        const data = await getPagedProducts(page, pageSize, controller.signal);
+        const data = await getPagedProducts(client, page, pageSize, controller.signal);
         setProducts(data.items ?? []);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -39,7 +41,7 @@ export function useProducts(page: number, pageSize: number) {
       } finally {
         setLoading(false);
       }
-    }
-
-  return { products, error, loading };
+  }
+    return { products, error, loading };
+  
 }

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { getProductById } from "../services/productService";
 import type { Product } from "../components/models/Product";
+import { useApiClient } from "../api/useApiClient";
 
 // A custom hook in React is essentially a wrapper around a service
 // (or any reusable logic) so that your component stays lean and focused on rendering.
 export function useProductById(id: string) {
+  const client = useApiClient();
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,7 +27,7 @@ export function useProductById(id: string) {
       setLoading(true);
       setError(null);
 
-      const data = await getProductById(id, controller.signal);
+      const data = await getProductById(client, id, controller.signal);
       setProduct(data);
     } catch (err: unknown) {
       if (err instanceof Error) {

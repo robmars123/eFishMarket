@@ -9,6 +9,7 @@ internal static class ServiceDependencyBootstrapper
 {
     public static void AddDependencyExtensions(this WebApplicationBuilder builder)
     {
+        AddMicrosoftEntraAuthentication(builder);
         AddApiDependencies(builder);
 
         #region Bounded Context Dependencies
@@ -20,6 +21,11 @@ internal static class ServiceDependencyBootstrapper
         builder.Services.AddApplicationConfiguration();
         builder.Services.AddInfrastructureConfiguration();
         #endregion
+    }
+
+    private static void AddMicrosoftEntraAuthentication(WebApplicationBuilder builder)
+    {
+        builder.AddEntraAuthentication();
     }
 
     private static void AddApiDependencies(WebApplicationBuilder builder)

@@ -1,2 +1,2 @@
 export const PLACEHOLDERIMAGE =
-  "https://via.placeholder.com/600x400?text=No+Image";
+  "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-featured-product-shot.jpg";
