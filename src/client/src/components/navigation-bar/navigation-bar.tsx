@@ -1,16 +1,15 @@
 import { useAuth } from "../../auth/useAuth";
-import { useUserProfile } from "../authentication/useUserProfile";
+import AccountMenu from "./user-account-menu/user-account-menu";
 
 export default function Navbar() {
-  const { displayName } = useUserProfile();
-  const { account, login, logout } = useAuth();
+  const { account, login } = useAuth();
 
   return (
     <nav className="w-full bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         
         <div className="text-2xl font-bold text-gray-800">
-          ShopEase
+          eFishMarket
         </div>
 
         <div className="hidden md:flex items-center gap-6 text-gray-700 font-medium">
@@ -19,34 +18,26 @@ export default function Navbar() {
           <a href="/contact" className="hover:text-gray-900">Contact</a>
         </div>
 
-        {/* User + Cart */}
         <div className="flex items-center gap-4">
-          {/* Display name when logged in */}
-          {account && (
-            <span className="text-gray-700 font-medium">
-              Welcome, {displayName}
-            </span>
-          )}
           {/* Only show if logged in */}
           {!account && ( 
             <button onClick={login} className="text-sm text-blue-600 hover:text-blue-800 font-medium" > Login </button> )} 
-            {account && ( 
-              <button onClick={logout} className="text-sm text-red-600 hover:text-red-800 font-medium" > Logout </button> )}
+          <button className="">
+            <span className="material-icons text-gray-700">
+              <AccountMenu />
+            </span>
+          </button>
 
           {/* Cart */}
           <button className="relative">
-            <span className="material-icons text-3xl text-gray-700">
-              shopping_cart
+            <span className="material-icons text-gray-700">
+              Cart
             </span>
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
               3
             </span>
           </button>
         </div>
-
-        <button className="md:hidden">
-          <span className="material-icons text-3xl text-gray-700">menu</span>
-        </button>
       </div>
     </nav>
   );
