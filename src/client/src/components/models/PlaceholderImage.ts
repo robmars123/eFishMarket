@@ -1,2 +1,2 @@
 export const PLACEHOLDERIMAGE =
-  "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-featured-product-shot.jpg";
+  "https://houstonaqua.com/cdn/shop/files/DSC07717.jpg?v=1698881066";
