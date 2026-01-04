@@ -19,9 +19,6 @@ variables:
   # Azure App Service name for API deployment
   AZURE_WEBAPP_NAME: 'efm-onlineshop'
 
-  # Azure Resource Group (required for Kudu credentials)
-  AZURE_RESOURCE_GROUP: 'efm-onlineshop-rg'
-
   # Build configuration
   CONFIGURATION: 'Release'
 
@@ -30,6 +27,10 @@ variables:
 
   # API project directory (React is ignored)
   WORKING_DIRECTORY: 'src/api/EFM.Api'
+
+  # Artifact naming
+  ZIP_NAME: 'EFM.Api.zip'
+  ZIP_PATH: '$(Build.ArtifactStagingDirectory)/$(ZIP_NAME)'
 
   # Dedicated publish folder for API output
   PUBLISH_DIR: '$(Build.ArtifactStagingDirectory)/api'
@@ -81,16 +82,26 @@ stages:
         Get-ChildItem -Path "$(PUBLISH_DIR)" -Recurse | ForEach-Object { Write-Host $_.FullName }
       displayName: 'List API publish output'
 
-    # Publish raw API folder as artifact
+    # Zip ONLY the API publish folder (React is ignored)
+    - task: ArchiveFiles@2
+      displayName: 'Zip API publish output'
+      inputs:
+        rootFolderOrFile: '$(PUBLISH_DIR)'   # Only API files
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(ZIP_PATH)'
+        replaceExistingArchive: true
+
+    # Publish zipped API artifact
     - task: PublishBuildArtifacts@1
       displayName: 'Publish API Artifact'
       inputs:
-        PathtoPublish: '$(PUBLISH_DIR)'
+        PathtoPublish: '$(ZIP_PATH)'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
 # ---------------------------------------------------------
-# PRODUCTION DEPLOY STAGE (DIRECT KUDU COPY)
+# PRODUCTION DEPLOY STAGE
 # ---------------------------------------------------------
 - stage: Production_Deploy
   displayName: "Production Deploy (API Only)"
