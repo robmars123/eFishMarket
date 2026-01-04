@@ -45,7 +45,8 @@ internal static class AppModuleConfiguration
                     "http://localhost:5000",
                     "https://localhost:7185",
                     "http://localhost:5173", //react dev
-                    "http://localhost:5174" //react dev
+                    "http://localhost:5174", //react dev
+                    "https://ambitious-mushroom-0c075a410.6.azurestaticapps.net"
                 )
                 .AllowAnyHeader()
                 .AllowAnyMethod()
