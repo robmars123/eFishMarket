@@ -1,80 +1,126 @@
+# ---------------------------------------------------------
+# PIPELINE: API-ONLY BUILD & DEPLOY (React ignored)
+# ---------------------------------------------------------
+# This pipeline triggers ONLY when changes occur under /src/api/**
+# React client under /src/client is intentionally ignored.
+# ---------------------------------------------------------
+
 trigger:
   branches:
     include:
       - master
+  paths:
+    include:
+      - src/api/**        # Only trigger when API files change
 
 pool: default
 
 variables:
+  # Azure App Service name for API deployment
   AZURE_WEBAPP_NAME: 'efm-onlineshop'
+
+  # Build configuration
   CONFIGURATION: 'Release'
+
+  # .NET SDK version
   DOTNET_CORE_VERSION: '10.0.x'
+
+  # API project directory (React is ignored)
   WORKING_DIRECTORY: 'src/api/EFM.Api'
+
+  # Artifact naming
   ZIP_NAME: 'EFM.Api.zip'
   ZIP_PATH: '$(Build.ArtifactStagingDirectory)/$(ZIP_NAME)'
 
+  # Dedicated publish folder for API output
+  PUBLISH_DIR: '$(Build.ArtifactStagingDirectory)/api'
+
+# ---------------------------------------------------------
+# PRODUCTION BUILD STAGE
+# ---------------------------------------------------------
 stages:
-- stage: Build
+- stage: Production_Build
+  displayName: "Production Build (API Only)"
   jobs:
   - job: Build
+    displayName: "Restore, Build, Publish API"
     steps:
+
+    # Install .NET SDK
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
         version: $(DOTNET_CORE_VERSION)
 
+    # Restore API dependencies
     - task: DotNetCoreCLI@2
-      displayName: 'Restore'
+      displayName: 'Restore API'
       inputs:
         command: 'restore'
         projects: '$(WORKING_DIRECTORY)/**/*.csproj'
 
+    # Build API project
     - task: DotNetCoreCLI@2
-      displayName: 'Build'
+      displayName: 'Build API'
       inputs:
         command: 'build'
         projects: '$(WORKING_DIRECTORY)/**/*.csproj'
         arguments: '--configuration $(CONFIGURATION)'
 
+    # Publish API output to a clean folder
     - task: DotNetCoreCLI@2
-      displayName: 'Publish'
+      displayName: 'Publish API'
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)/**/*.csproj'
-        arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)"'
+        arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)"'
 
+    # Debugging: list publish output
     - powershell: |
-        Write-Host "Publish folder: $(Build.ArtifactStagingDirectory)"
-        if (-not (Test-Path "$(Build.ArtifactStagingDirectory)")) { Write-Error "Publish folder missing"; exit 1 }
-        Get-ChildItem -Path "$(Build.ArtifactStagingDirectory)" -Recurse | ForEach-Object { Write-Host $_.FullName }
-      displayName: 'List publish output'
+        Write-Host "Publish folder: $(PUBLISH_DIR)"
+        if (-not (Test-Path "$(PUBLISH_DIR)")) { Write-Error "Publish folder missing"; exit 1 }
+        Get-ChildItem -Path "$(PUBLISH_DIR)" -Recurse | ForEach-Object { Write-Host $_.FullName }
+      displayName: 'List API publish output'
 
+    # Zip ONLY the API publish folder (React is ignored)
     - task: ArchiveFiles@2
-      displayName: 'Zip publish output'
+      displayName: 'Zip API publish output'
       inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'    # use folder (no wildcard) on Windows agents
+        rootFolderOrFile: '$(PUBLISH_DIR)'   # Only API files
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
         replaceExistingArchive: true
 
+    # Publish zipped API artifact
     - task: PublishBuildArtifacts@1
+      displayName: 'Publish API Artifact'
       inputs:
         PathtoPublish: '$(ZIP_PATH)'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
-- stage: Deploy
-  dependsOn: Build
+# ---------------------------------------------------------
+# PRODUCTION DEPLOY STAGE
+# ---------------------------------------------------------
+- stage: Production_Deploy
+  displayName: "Production Deploy (API Only)"
+  dependsOn: Production_Build
   jobs:
   - job: Deploy
+    displayName: "Deploy API ZIP to Azure"
     steps:
+
+    # Download API artifact
     - task: DownloadBuildArtifacts@0
+      displayName: 'Download API Artifact'
       inputs:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
+    # Deploy API ZIP to Azure App Service
     - task: AzureWebApp@1
+      displayName: 'Deploy API to Azure'
       inputs:
         azureSubscription: 'AzureSP-efm-onlineshop2'
         appName: '$(AZURE_WEBAPP_NAME)'
