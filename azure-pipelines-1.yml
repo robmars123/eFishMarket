@@ -119,16 +119,14 @@ stages:
         downloadPath: '$(Pipeline.Workspace)'
 
     # Deploy API ZIP to Azure App Service
-    - task: AzureRmWebAppDeployment@4
-      displayName: 'Deploy API with Extraction'
+    - task: AzureWebApp@1
+      displayName: "Deploy API (Extract to wwwroot)"
       inputs:
         azureSubscription: 'AzureSP-efm-onlineshop2'
-        WebAppName: '$(AZURE_WEBAPP_NAME)'
+        appName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
-        appType: 'webApp'
-        enableCustomDeployment: true
-        DeploymentType: 'webDeploy' # Crucial: forces physical file copying/extraction
-        TakeAppOfflineFlag: true
-        RemoveAdditionalFilesFlag: true
-        # Force the environment to be writeable
-        AppSettings: '-WEBSITE_RUN_FROM_PACKAGE 0'
+        deploymentMethod: 'zipDeploy'   # forces extraction when WEBSITE_RUN_FROM_PACKAGE = 0
+        appType: webApp
+        appSettings: |
+          -WEBSITE_RUN_FROM_PACKAGE 0
+
