@@ -73,7 +73,7 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
-        arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)"'
+        arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)"'
 
     # Debugging: list publish output
     - powershell: |
