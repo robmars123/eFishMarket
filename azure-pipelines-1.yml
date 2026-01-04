@@ -86,7 +86,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Zip API publish output'
       inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'   # Only API files
+        rootFolderOrFile: '$(PUBLISH_DIR)'   # Only API files
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
