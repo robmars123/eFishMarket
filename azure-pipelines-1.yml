@@ -19,6 +19,9 @@ variables:
   # Azure App Service name for API deployment
   AZURE_WEBAPP_NAME: 'efm-onlineshop'
 
+  # Azure Resource Group (required for Kudu credentials)
+  AZURE_RESOURCE_GROUP: 'efm-onlineshop-rg'
+
   # Build configuration
   CONFIGURATION: 'Release'
 
@@ -27,10 +30,6 @@ variables:
 
   # API project directory (React is ignored)
   WORKING_DIRECTORY: 'src/api/EFM.Api'
-
-  # Artifact naming
-  ZIP_NAME: 'EFM.Api.zip'
-  ZIP_PATH: '$(Build.ArtifactStagingDirectory)/$(ZIP_NAME)'
 
   # Dedicated publish folder for API output
   PUBLISH_DIR: '$(Build.ArtifactStagingDirectory)/api'
@@ -82,49 +81,74 @@ stages:
         Get-ChildItem -Path "$(PUBLISH_DIR)" -Recurse | ForEach-Object { Write-Host $_.FullName }
       displayName: 'List API publish output'
 
-    # Zip ONLY the API publish folder (React is ignored)
-    - task: ArchiveFiles@2
-      displayName: 'Zip API publish output'
-      inputs:
-        rootFolderOrFile: '$(PUBLISH_DIR)'   # Only API files
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(ZIP_PATH)'
-        replaceExistingArchive: true
-
-    # Publish zipped API artifact
+    # Publish raw API folder as artifact
     - task: PublishBuildArtifacts@1
       displayName: 'Publish API Artifact'
       inputs:
-        PathtoPublish: '$(ZIP_PATH)'
+        PathtoPublish: '$(PUBLISH_DIR)'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
 # ---------------------------------------------------------
-# PRODUCTION DEPLOY STAGE
+# PRODUCTION DEPLOY STAGE (DIRECT KUDU COPY)
 # ---------------------------------------------------------
 - stage: Production_Deploy
-  displayName: "Production Deploy (API Only)"
+  displayName: "Production Deploy (API Only - Direct to wwwroot)"
   dependsOn: Production_Build
   jobs:
   - job: Deploy
-    displayName: "Deploy API ZIP to Azure"
+    displayName: "Deploy API directly to wwwroot via Kudu"
     steps:
 
-    # Download API artifact
+    # Download API artifact (raw publish folder)
     - task: DownloadBuildArtifacts@0
       displayName: 'Download API Artifact'
       inputs:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    # Deploy API ZIP to Azure App Service
-    - task: AzureWebApp@1
-      displayName: "Deploy API (Extract to wwwroot)"
+    # Install Azure CLI + Deploy via Kudu VFS API
+    - task: AzureCLI@2
+      displayName: "Deploy files to wwwroot using Kudu VFS API"
       inputs:
         azureSubscription: 'AzureSP-efm-onlineshop2'
-        appName: '$(AZURE_WEBAPP_NAME)'
-        package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
-        deploymentMethod: 'zipDeploy'   # forces extraction when WEBSITE_RUN_FROM_PACKAGE = 0
-        appType: webApp
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          $appName = "$(AZURE_WEBAPP_NAME)"
+          $resourceGroup = "$(AZURE_RESOURCE_GROUP)"
 
+          Write-Host "Fetching publishing profile..."
+          $profile = az webapp deployment list-publishing-profiles `
+              --name $appName `
+              --resource-group $resourceGroup `
+              --xml
+
+          $xml = [xml]$profile
+          $user = $xml.publishData.publishProfile[0].userName
+          $pass = $xml.publishData.publishProfile[0].userPWD
+          $kuduUrl = $xml.publishData.publishProfile[0].publishUrl.Replace(":443", "")
+
+          Write-Host "Kudu URL: $kuduUrl"
+
+          # Source folder (published API)
+          $source = "$(Pipeline.Workspace)/webapp"
+
+          Write-Host "Deploying files to Kudu..."
+          $files = Get-ChildItem -Path $source -Recurse
+
+          foreach ($file in $files) {
+            if (-not $file.PSIsContainer) {
+              $relativePath = $file.FullName.Replace($source, "").Replace("\", "/")
+              $targetUrl = "https://$kuduUrl/api/vfs/site/wwwroot$relativePath"
+
+              Write-Host "Uploading: $relativePath"
+              Invoke-RestMethod -Uri $targetUrl `
+                                -Method PUT `
+                                -InFile $file.FullName `
+                                -ContentType "application/octet-stream" `
+                                -Credential (New-Object System.Management.Automation.PSCredential($user,(ConvertTo-SecureString $pass -AsPlainText -Force)))
+            }
+          }
+
+          Write-Host "Deployment complete."
