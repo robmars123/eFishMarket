@@ -57,14 +57,14 @@ stages:
       displayName: 'Restore API'
       inputs:
         command: 'restore'
-        projects: '$(WORKING_DIRECTORY)/**/*.csproj'
+        projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
 
     # Build API project
     - task: DotNetCoreCLI@2
       displayName: 'Build API'
       inputs:
         command: 'build'
-        projects: '$(WORKING_DIRECTORY)/**/*.csproj'
+        projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
         arguments: '--configuration $(CONFIGURATION)'
 
     # Publish API output to a clean folder
@@ -72,7 +72,7 @@ stages:
       displayName: 'Publish API'
       inputs:
         command: 'publish'
-        projects: '$(WORKING_DIRECTORY)/**/*.csproj'
+        projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
         arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)"'
 
     # Debugging: list publish output
