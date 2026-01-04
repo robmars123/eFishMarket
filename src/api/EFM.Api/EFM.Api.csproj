@@ -11,11 +11,6 @@
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <ItemGroup>
-  <Content Include="web.config" CopyToOutputDirectory="Always" />
-	</ItemGroup>
-
-
   <PropertyGroup>
 	<UserSecretsId>386ee080-9a4c-461e-8ec5-bc5b5cd96fe5</UserSecretsId>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
