@@ -57,11 +57,11 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          auth-type: SERVICE_PRINCIPAL
-          client-id: ${{ secrets.efm_onlineshop_CLIENT_ID_0F86 }}
-          tenant-id: ${{ secrets.efm_onlineshop_TENANT_ID_0F86 }}
-          subscription-id: ${{ secrets.efm_onlineshop_SUBSCRIPTION_ID_0F86 }}
-          client-secret: ${{ secrets.efm_onlineshop_CLIENT_SECRET_0F86 }}
+          auth-type: ID_TOKEN
+          client-id: ${{ secrets.AZURE_CLIENT_ID_GITHUB }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID_GITHUB }}
+          subscription-id: ${{ secrets.EFM_ONLINESHOP_SUBSCRIPTION_ID_0F86 }}
+
 
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
