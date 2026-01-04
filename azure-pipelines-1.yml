@@ -93,62 +93,25 @@ stages:
 # PRODUCTION DEPLOY STAGE (DIRECT KUDU COPY)
 # ---------------------------------------------------------
 - stage: Production_Deploy
-  displayName: "Production Deploy (API Only - Direct to wwwroot)"
+  displayName: "Production Deploy (API Only)"
   dependsOn: Production_Build
   jobs:
   - job: Deploy
-    displayName: "Deploy API directly to wwwroot via Kudu"
+    displayName: "Deploy API ZIP to Azure"
     steps:
 
-    # Download API artifact (raw publish folder)
+    # Download API artifact
     - task: DownloadBuildArtifacts@0
       displayName: 'Download API Artifact'
       inputs:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    # Install Azure CLI + Deploy via Kudu VFS API
-    - task: AzureCLI@2
-      displayName: "Deploy files to wwwroot using Kudu VFS API"
+    # Deploy API ZIP to Azure App Service
+    - task: AzureWebApp@1
+      displayName: 'Deploy API to Azure'
       inputs:
         azureSubscription: 'efm-onlineshop-api'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $appName = "$(AZURE_WEBAPP_NAME)"
-          $resourceGroup = "$(AZURE_RESOURCE_GROUP)"
-
-          Write-Host "Fetching publishing profile..."
-          $profile = az webapp deployment list-publishing-profiles `
-              --name $appName `
-              --resource-group $resourceGroup `
-              --xml
-
-          $xml = [xml]$profile
-          $user = $xml.publishData.publishProfile[0].userName
-          $pass = $xml.publishData.publishProfile[0].userPWD
-          $kuduUrl = $xml.publishData.publishProfile[0].publishUrl.Replace(":443", "")
-
-          Write-Host "Kudu URL: $kuduUrl"
-
-          # Source folder (published API)
-          $source = "$(Pipeline.Workspace)/webapp/api"
-
-          Write-Host "Deploying files to Kudu..."
-          $files = Get-ChildItem -Path $source -Recurse
-
-          foreach ($file in $files) {
-            if (-not $file.PSIsContainer) {
-              $relativePath = $file.FullName.Replace($source, "").Replace("\", "/")
-              $targetUrl = "https://$kuduUrl/api/vfs/site/wwwroot$relativePath"
-
-              Write-Host "Uploading: $relativePath"
-              Invoke-RestMethod -Uri $targetUrl `
-                                -Method PUT `
-                                -InFile $file.FullName `
-                                -ContentType "application/octet-stream" `
-                                -Credential (New-Object System.Management.Automation.PSCredential($user,(ConvertTo-SecureString $pass -AsPlainText -Force)))
-            }
-          }
-
-          Write-Host "Deployment complete."
+        appName: '$(AZURE_WEBAPP_NAME)'
+        package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
+        appType: 'webApp'
