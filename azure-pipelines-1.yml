@@ -111,7 +111,7 @@ stages:
     - task: AzureCLI@2
       displayName: "Deploy files to wwwroot using Kudu VFS API"
       inputs:
-        azureSubscription: 'AzureSP-efm-onlineshop2'
+        azureSubscription: 'efm-onlineshop-api'
         scriptType: 'ps'
         scriptLocation: 'inlineScript'
         inlineScript: |
