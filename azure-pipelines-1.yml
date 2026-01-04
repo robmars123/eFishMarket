@@ -125,11 +125,10 @@ stages:
         azureSubscription: 'AzureSP-efm-onlineshop2'
         WebAppName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
-        appType: 'webApp' # Explicitly set this to avoid default behavior issues
+        appType: 'webApp'
         enableCustomDeployment: true
-        DeploymentType: 'webDeploy' 
-        # Use TakeAppOffline to release file locks during extraction
+        DeploymentType: 'webDeploy' # Crucial: forces physical file copying/extraction
         TakeAppOfflineFlag: true
         RemoveAdditionalFilesFlag: true
-        # Force disable the setting in the same step
+        # Force the environment to be writeable
         AppSettings: '-WEBSITE_RUN_FROM_PACKAGE 0'
