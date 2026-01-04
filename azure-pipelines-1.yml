@@ -125,4 +125,5 @@ stages:
         azureSubscription: 'AzureSP-efm-onlineshop2'
         appName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
+        AppSettings: '-WEBSITE_RUN_FROM_PACKAGE 0'
         appType: 'webApp'
