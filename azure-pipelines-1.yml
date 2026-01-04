@@ -127,6 +127,4 @@ stages:
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
         deploymentMethod: 'zipDeploy'   # forces extraction when WEBSITE_RUN_FROM_PACKAGE = 0
         appType: webApp
-        appSettings: |
-          -WEBSITE_RUN_FROM_PACKAGE 0
 
