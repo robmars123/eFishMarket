@@ -132,7 +132,7 @@ stages:
           Write-Host "Kudu URL: $kuduUrl"
 
           # Source folder (published API)
-          $source = "$(Pipeline.Workspace)/webapp"
+          $source = "$(Pipeline.Workspace)/webapp/api"
 
           Write-Host "Deploying files to Kudu..."
           $files = Get-ChildItem -Path $source -Recurse
