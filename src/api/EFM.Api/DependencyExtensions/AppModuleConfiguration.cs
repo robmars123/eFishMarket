@@ -49,8 +49,7 @@ internal static class AppModuleConfiguration
                     "https://ambitious-mushroom-0c075a410.6.azurestaticapps.net"
                 )
                 .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials(); //Only needed if you're using cookies or credentials
+                .AllowAnyMethod();
             });
         });
     }
