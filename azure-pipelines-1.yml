@@ -99,10 +99,11 @@ stages:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    - task: AzureWebApp@1
-      displayName: 'Deploy API to Azure (Run-From-Package)'
+    - task: AzureRmWebAppDeployment@4
+      displayName: 'Deploy API to Azure (Web Deploy)'
       inputs:
+        ConnectionType: 'AzureRM'
         azureSubscription: 'efm-onlineshop-api'
-        appName: '$(AZURE_WEBAPP_NAME)'
-        package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
         appType: 'webApp'
+        WebAppName: '$(AZURE_WEBAPP_NAME)'
+        Package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
