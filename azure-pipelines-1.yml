@@ -106,5 +106,3 @@ stages:
         appName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
         appType: 'webApp'
-        appSettings: |
-          WEBSITE_RUN_FROM_PACKAGE 1
