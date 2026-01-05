@@ -26,6 +26,7 @@ WebApplication app = builder.Build();
 //app.MapFallbackToFile("index.html");
 
 app.AppConfig();
+app.UseRouting();
 
 app.UseSerilogRequestLogging();
 
