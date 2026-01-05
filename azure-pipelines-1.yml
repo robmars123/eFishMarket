@@ -1,5 +1,5 @@
 # ---------------------------------------------------------
-# PIPELINE: API-ONLY BUILD & DEPLOY (React ignored)
+# PIPELINE: API-ONLY BUILD & RUN-FROM-PACKAGE DEPLOY
 # ---------------------------------------------------------
 # This pipeline triggers ONLY when changes occur under /src/api/**
 # React client under /src/client is intentionally ignored.
@@ -11,28 +11,17 @@ trigger:
       - master
   paths:
     include:
-      - src/api/**        # Only trigger when API files change
+      - src/api/**
 
 pool: default
 
 variables:
-  # Azure App Service name for API deployment
   AZURE_WEBAPP_NAME: 'efm-onlineshop'
-
-  # Build configuration
   CONFIGURATION: 'Release'
-
-  # .NET SDK version
   DOTNET_CORE_VERSION: '10.0.x'
-
-  # API project directory (React is ignored)
   WORKING_DIRECTORY: 'src/api/EFM.Api'
-
-  # Artifact naming
   ZIP_NAME: 'EFM.Api.zip'
   ZIP_PATH: '$(Build.ArtifactStagingDirectory)/$(ZIP_NAME)'
-
-  # Dedicated publish folder for API output
   PUBLISH_DIR: '$(Build.ArtifactStagingDirectory)/api'
 
 # ---------------------------------------------------------
@@ -46,20 +35,17 @@ stages:
     displayName: "Restore, Build, Publish API"
     steps:
 
-    # Install .NET SDK
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
         version: $(DOTNET_CORE_VERSION)
 
-    # Restore API dependencies
     - task: DotNetCoreCLI@2
       displayName: 'Restore API'
       inputs:
         command: 'restore'
         projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
 
-    # Build API project
     - task: DotNetCoreCLI@2
       displayName: 'Build API'
       inputs:
@@ -67,7 +53,6 @@ stages:
         projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
         arguments: '--configuration $(CONFIGURATION)'
 
-    # Publish API output to a clean folder
     - task: DotNetCoreCLI@2
       displayName: 'Publish API'
       inputs:
@@ -75,24 +60,21 @@ stages:
         projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
         arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)"'
 
-    # Debugging: list publish output
     - powershell: |
         Write-Host "Publish folder: $(PUBLISH_DIR)"
         if (-not (Test-Path "$(PUBLISH_DIR)")) { Write-Error "Publish folder missing"; exit 1 }
         Get-ChildItem -Path "$(PUBLISH_DIR)" -Recurse | ForEach-Object { Write-Host $_.FullName }
       displayName: 'List API publish output'
 
-    # Zip ONLY the API publish folder (React is ignored)
     - task: ArchiveFiles@2
       displayName: 'Zip API publish output'
       inputs:
-        rootFolderOrFile: '$(PUBLISH_DIR)'   # Only API files
+        rootFolderOrFile: '$(PUBLISH_DIR)'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
         replaceExistingArchive: true
 
-    # Publish zipped API artifact
     - task: PublishBuildArtifacts@1
       displayName: 'Publish API Artifact'
       inputs:
@@ -101,29 +83,28 @@ stages:
         publishLocation: 'Container'
 
 # ---------------------------------------------------------
-# PRODUCTION DEPLOY STAGE
+# PRODUCTION DEPLOY STAGE (RUN-FROM-PACKAGE)
 # ---------------------------------------------------------
 - stage: Production_Deploy
-  displayName: "Production Deploy (API Only)"
+  displayName: "Production Deploy (Run-From-Package)"
   dependsOn: Production_Build
   jobs:
   - job: Deploy
-    displayName: "Deploy API ZIP to Azure"
+    displayName: "Deploy API ZIP to Azure (Run-From-Package)"
     steps:
 
-    # Download API artifact
     - task: DownloadBuildArtifacts@0
       displayName: 'Download API Artifact'
       inputs:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    # Deploy API ZIP to Azure App Service
     - task: AzureWebApp@1
-      displayName: 'Deploy API to Azure'
+      displayName: 'Deploy API to Azure (Run-From-Package)'
       inputs:
         azureSubscription: 'efm-onlineshop-api'
         appName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
         appType: 'webApp'
-        appSettings: 'WEBSITE_RUN_FROM_PACKAGE 0'
+        appSettings: |
+          WEBSITE_RUN_FROM_PACKAGE 1
