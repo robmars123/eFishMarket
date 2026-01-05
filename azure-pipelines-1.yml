@@ -58,7 +58,7 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
-        arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)"'
+        arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)" /p:PublishSingleFile=false'
 
     - powershell: |
         Write-Host "Publish folder: $(PUBLISH_DIR)"
@@ -69,7 +69,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Zip API publish output'
       inputs:
-        rootFolderOrFile: '$(PUBLISH_DIR)'
+        rootFolderOrFile: '$(PUBLISH_DIR)/EFM.Api'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
@@ -83,14 +83,14 @@ stages:
         publishLocation: 'Container'
 
 # ---------------------------------------------------------
-# PRODUCTION DEPLOY STAGE (RUN-FROM-PACKAGE)
+# PRODUCTION DEPLOY STAGE
 # ---------------------------------------------------------
 - stage: Production_Deploy
-  displayName: "Production Deploy (Run-From-Package)"
+  displayName: "Production Deploy"
   dependsOn: Production_Build
   jobs:
   - job: Deploy
-    displayName: "Deploy API ZIP to Azure (Run-From-Package)"
+    displayName: "Deploy API ZIP to Azure"
     steps:
 
     - task: DownloadBuildArtifacts@0
