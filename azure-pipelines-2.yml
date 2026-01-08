@@ -31,3 +31,11 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Disable Docker Compose Build'
+  inputs:
+    command: 'custom'
+    custom: 'msbuild'
+    arguments: '/t:Build /p:BuildDockerComposeProject=false'
+
