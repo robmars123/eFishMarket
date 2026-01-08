@@ -58,7 +58,7 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
-        arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)"'
+        arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)" /p:PublishSingleFile=false'
 
     - powershell: |
         Write-Host "Publish folder: $(PUBLISH_DIR)"
@@ -83,14 +83,14 @@ stages:
         publishLocation: 'Container'
 
 # ---------------------------------------------------------
-# PRODUCTION DEPLOY STAGE (RUN-FROM-PACKAGE)
+# PRODUCTION DEPLOY STAGE
 # ---------------------------------------------------------
 - stage: Production_Deploy
-  displayName: "Production Deploy (Run-From-Package)"
+  displayName: "Production Deploy"
   dependsOn: Production_Build
   jobs:
   - job: Deploy
-    displayName: "Deploy API ZIP to Azure (Run-From-Package)"
+    displayName: "Deploy API ZIP to Azure"
     steps:
 
     - task: DownloadBuildArtifacts@0
@@ -100,9 +100,10 @@ stages:
         downloadPath: '$(Pipeline.Workspace)'
 
     - task: AzureWebApp@1
-      displayName: 'Deploy API to Azure (Run-From-Package)'
+      displayName: "Deploy API (Extract ZIP)"
       inputs:
+        appType: 'webApp'
         azureSubscription: 'efm-onlineshop-api'
         appName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
-        appType: 'webApp'
+        deploymentMethod: 'zipDeploy'
