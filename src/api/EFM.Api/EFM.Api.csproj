@@ -6,7 +6,10 @@
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
-
+  
+  <PropertyGroup>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="web.config" CopyToOutputDirectory="Always" />
   </ItemGroup>
