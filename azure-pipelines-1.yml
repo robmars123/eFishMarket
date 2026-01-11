@@ -97,4 +97,5 @@ stages:
         appName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/efm.zip'
         appType: 'webApp'
-        appSettings: '-WEBSITE_RUN_FROM_PACKAGE 0'
+        deploymentMethod: 'zipDeploy'
+        enableCustomDeployment: true
