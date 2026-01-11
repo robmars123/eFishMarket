@@ -14,7 +14,7 @@ variables:
 stages:
 
 # ============================
-# BUILD
+# BUILD STAGE
 # ============================
 - stage: Build
   jobs:
@@ -41,31 +41,41 @@ stages:
         arguments: '--configuration $(CONFIGURATION) --no-restore'
 
     - task: DotNetCoreCLI@2
+      displayName: 'Test'
+      inputs:
+        command: 'test'
+        projects: '$(WORKING_DIRECTORY)'
+        arguments: '--no-build'
+
+    # PUBLISH INTO A CLEAN FOLDER
+    - task: DotNetCoreCLI@2
       displayName: 'Publish'
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)'
         arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)/publish"'
 
+    # ZIP THE PUBLISH OUTPUT
     - task: ArchiveFiles@2
-      displayName: 'Create flat ZIP'
+      displayName: 'Create ZIP package'
       inputs:
         rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/efm.zip'
         replaceExistingArchive: true
 
+    # PUBLISH ONLY THE ZIP
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/efm.zip'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
 
 # ============================
-# DEPLOY — ZIPDEPLOY
+# DEPLOY STAGE
 # ============================
 - stage: Deploy
   dependsOn: Build
@@ -79,12 +89,11 @@ stages:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    - task: AzureRmWebAppDeployment@4
-      displayName: 'Deploy using ZipDeploy'
+    # DEPLOY THE ZIP PACKAGE
+    - task: AzureWebApp@1
+      displayName: 'Deploy to Azure WebApp'
       inputs:
-        ConnectionType: 'AzureRM'
         azureSubscription: 'efm-onlineshop-api'
+        appName: '$(AZURE_WEBAPP_NAME)'
+        package: '$(Pipeline.Workspace)/webapp/efm.zip'
         appType: 'webApp'
-        WebAppName: '$(AZURE_WEBAPP_NAME)'
-        Package: '$(Pipeline.Workspace)/webapp/efm.zip'
-        DeploymentType: 'zipDeploy'
