@@ -90,16 +90,13 @@ stages:
         downloadPath: '$(Pipeline.Workspace)'
 
     # DEPLOY THE ZIP PACKAGE
-    - task: AzureRmWebAppDeployment@4
-      displayName: 'Deploy API using WebDeploy'
+    - task: AzureWebApp@1
+      displayName: 'Deploy to Azure WebApp'
       inputs:
-        ConnectionType: 'AzureRM'
         azureSubscription: 'efm-onlineshop-api'
+        appName: '$(AZURE_WEBAPP_NAME)'
+        package: '$(Pipeline.Workspace)/webapp/efm.zip'
         appType: 'webApp'
-        WebAppName: '$(AZURE_WEBAPP_NAME)'
-        Package: '$(Pipeline.Workspace)/webapp/efm.zip'
-        enableCustomDeployment: true
-        DeploymentType: 'webDeploy'
 
 
 
