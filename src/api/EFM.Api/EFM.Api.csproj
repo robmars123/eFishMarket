@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="web.config" CopyToOutputDirectory="Always" />
+    <Content Include="appsettings.Production.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>
