@@ -53,13 +53,13 @@ stages:
         rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/efm.zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)'
         replaceExistingArchive: true
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/efm.zip'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
