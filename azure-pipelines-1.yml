@@ -20,6 +20,11 @@ stages:
   jobs:
   - job: BuildJob
     steps:
+    - task: DeleteFiles@1
+      displayName: 'Clean agent workspace'
+      inputs:
+        SourceFolder: '$(Build.ArtifactStagingDirectory)'
+        Contents: '**/*'
 
     - task: UseDotNet@2
       displayName: 'Install .NET SDK'
