@@ -45,13 +45,13 @@ stages:
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
-        arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)"'
+        arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)/publish"'
 
     # 5. Zip output
     - task: ArchiveFiles@2
       displayName: 'Zip publish contents'
       inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
