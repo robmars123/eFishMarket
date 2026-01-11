@@ -28,6 +28,7 @@ internal static class AppModuleConfiguration
             app.ApplyMigrations();
         }
 
+        app.MapOpenApi();
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
