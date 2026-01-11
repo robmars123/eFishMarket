@@ -1,17 +1,6 @@
-# ---------------------------------------------------------
-# PIPELINE: API-ONLY BUILD & RUN-FROM-PACKAGE DEPLOY
-# ---------------------------------------------------------
-# This pipeline triggers ONLY when changes occur under /src/api/**
-# React client under /src/client is intentionally ignored.
-# ---------------------------------------------------------
-
 trigger:
   branches:
-    include:
-      - master
-  paths:
-    include:
-      - src/api/**
+    include: [ master ]
 
 pool: default
 
@@ -22,88 +11,52 @@ variables:
   WORKING_DIRECTORY: 'src/api/EFM.Api'
   ZIP_NAME: 'EFM.Api.zip'
   ZIP_PATH: '$(Build.ArtifactStagingDirectory)/$(ZIP_NAME)'
-  PUBLISH_DIR: '$(Build.ArtifactStagingDirectory)/api'
 
-# ---------------------------------------------------------
-# PRODUCTION BUILD STAGE
-# ---------------------------------------------------------
 stages:
-- stage: Production_Build
-  displayName: "Production Build (API Only)"
+- stage: Build
   jobs:
   - job: Build
-    displayName: "Restore, Build, Publish API"
     steps:
-
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
         version: $(DOTNET_CORE_VERSION)
 
     - task: DotNetCoreCLI@2
-      displayName: 'Restore API'
-      inputs:
-        command: 'restore'
-        projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Build API'
-      inputs:
-        command: 'build'
-        projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
-        arguments: '--configuration $(CONFIGURATION)'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish API'
+      displayName: 'Publish'
       inputs:
         command: 'publish'
-        projects: '$(WORKING_DIRECTORY)/EFM.Api.csproj'
-        arguments: '--configuration $(CONFIGURATION) --output "$(PUBLISH_DIR)" /p:PublishSingleFile=false'
-
-    - powershell: |
-        Write-Host "Publish folder: $(PUBLISH_DIR)"
-        if (-not (Test-Path "$(PUBLISH_DIR)")) { Write-Error "Publish folder missing"; exit 1 }
-        Get-ChildItem -Path "$(PUBLISH_DIR)" -Recurse | ForEach-Object { Write-Host $_.FullName }
-      displayName: 'List API publish output'
+        projects: '$(WORKING_DIRECTORY)'
+        arguments: '--configuration $(CONFIGURATION) --no-build --output "$(Build.ArtifactStagingDirectory)"'
 
     - task: ArchiveFiles@2
-      displayName: 'Zip API publish output'
+      displayName: 'Zip publish contents'
       inputs:
-        rootFolderOrFile: '$(PUBLISH_DIR)'
+        rootFolderOrFile: '"$(Build.ArtifactStagingDirectory)/*"'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(ZIP_PATH)'
         replaceExistingArchive: true
 
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish API Artifact'
       inputs:
         PathtoPublish: '$(ZIP_PATH)'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
-# ---------------------------------------------------------
-# PRODUCTION DEPLOY STAGE
-# ---------------------------------------------------------
-- stage: Production_Deploy
-  displayName: "Production Deploy"
-  dependsOn: Production_Build
+- stage: Deploy
+  dependsOn: Build
   jobs:
   - job: Deploy
-    displayName: "Deploy API ZIP to Azure"
     steps:
-
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download API Artifact'
       inputs:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
     - task: AzureWebApp@1
-      displayName: "Deploy API (Extract ZIP)"
       inputs:
-        appType: 'webApp'
         azureSubscription: 'efm-onlineshop-api'
         appName: '$(AZURE_WEBAPP_NAME)'
         package: '$(Pipeline.Workspace)/webapp/$(ZIP_NAME)'
-        deploymentMethod: 'zipDeploy'
+        appType: 'webApp'
