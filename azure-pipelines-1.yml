@@ -99,3 +99,4 @@ stages:
         appType: 'webApp'
         deploymentMethod: 'zipDeploy'
         enableCustomDeployment: true
+        takeAppOfflineFlag: true
