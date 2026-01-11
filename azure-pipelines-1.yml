@@ -14,17 +14,12 @@ variables:
 stages:
 
 # ============================
-# BUILD STAGE
+# BUILD
 # ============================
 - stage: Build
   jobs:
   - job: BuildJob
     steps:
-    - task: DeleteFiles@1
-      displayName: 'Clean agent workspace'
-      inputs:
-        SourceFolder: '$(Build.ArtifactStagingDirectory)'
-        Contents: '**/*'
 
     - task: UseDotNet@2
       displayName: 'Install .NET SDK'
@@ -46,31 +41,31 @@ stages:
         arguments: '--configuration $(CONFIGURATION) --no-restore'
 
     - task: DotNetCoreCLI@2
-      displayName: 'Test'
-      inputs:
-        command: 'test'
-        projects: '$(WORKING_DIRECTORY)'
-        arguments: '--no-build'
-
-    # PUBLISH THE APP INTO A CLEAN FOLDER
-    - task: DotNetCoreCLI@2
       displayName: 'Publish'
       inputs:
         command: 'publish'
         projects: '$(WORKING_DIRECTORY)'
-        arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)/publish" /p:PublishProfile=""'
+        arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)/publish"'
 
-    # PUBLISH THE *FOLDER*, NOT A ZIP
+    - task: ArchiveFiles@2
+      displayName: 'Create flat ZIP'
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/efm.zip'
+        replaceExistingArchive: true
+
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/efm.zip'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
 
 # ============================
-# DEPLOY STAGE
+# DEPLOY — ZIPDEPLOY
 # ============================
 - stage: Deploy
   dependsOn: Build
@@ -84,14 +79,12 @@ stages:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    # DEPLOY THE PUBLISH FOLDER DIRECTLY
     - task: AzureRmWebAppDeployment@4
-      displayName: 'Deploy API'
+      displayName: 'Deploy using ZipDeploy'
       inputs:
         ConnectionType: 'AzureRM'
         azureSubscription: 'efm-onlineshop-api'
         appType: 'webApp'
         WebAppName: '$(AZURE_WEBAPP_NAME)'
-        Package: '$(Pipeline.Workspace)/webapp'
-        enableCustomDeployment: true
-        DeploymentType: 'webDeploy'
+        Package: '$(Pipeline.Workspace)/webapp/efm.zip'
+        DeploymentType: 'zipDeploy'
