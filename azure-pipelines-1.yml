@@ -52,7 +52,7 @@ stages:
         projects: '$(WORKING_DIRECTORY)'
         arguments: '--no-build'
 
-    # PUBLISH INTO A CLEAN FOLDER
+    # PUBLISH THE APP INTO A CLEAN FOLDER
     - task: DotNetCoreCLI@2
       displayName: 'Publish'
       inputs:
@@ -60,21 +60,11 @@ stages:
         projects: '$(WORKING_DIRECTORY)'
         arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)/publish" /p:PublishProfile=""'
 
-    # ZIP THE PUBLISH OUTPUT
-    - task: ArchiveFiles@2
-      displayName: 'Create ZIP package'
-      inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/efm.zip'
-        replaceExistingArchive: true
-
-    # PUBLISH ONLY THE ZIP
+    # PUBLISH THE *FOLDER*, NOT A ZIP
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/efm.zip'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
@@ -94,18 +84,14 @@ stages:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    # DEPLOY THE ZIP PACKAGE
+    # DEPLOY THE PUBLISH FOLDER DIRECTLY
     - task: AzureRmWebAppDeployment@4
-      displayName: 'Deploy API using WebDeploy'
+      displayName: 'Deploy API'
       inputs:
         ConnectionType: 'AzureRM'
         azureSubscription: 'efm-onlineshop-api'
         appType: 'webApp'
         WebAppName: '$(AZURE_WEBAPP_NAME)'
-        Package: '$(Pipeline.Workspace)/webapp/efm.zip'
+        Package: '$(Pipeline.Workspace)/webapp'
         enableCustomDeployment: true
         DeploymentType: 'webDeploy'
-
-
-
-
