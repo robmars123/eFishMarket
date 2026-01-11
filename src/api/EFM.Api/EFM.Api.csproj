@@ -18,6 +18,9 @@
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+  <PropertyGroup>
+    <IgnoreProjectPublishProfiles>true</IgnoreProjectPublishProfiles>
+  </PropertyGroup>
 
   <PropertyGroup>
 	<UserSecretsId>386ee080-9a4c-461e-8ec5-bc5b5cd96fe5</UserSecretsId>
