@@ -56,13 +56,22 @@ stages:
         arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)/publish"'
 
     # ZIP THE PUBLISH OUTPUT
+    - task: ArchiveFiles@2
+      displayName: 'Create ZIP package'
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/efm.zip'
+        replaceExistingArchive: true
+
+    # PUBLISH ONLY THE ZIP
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/efm.zip'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
-
 
 
 # ============================
