@@ -87,7 +87,7 @@ stages:
       inputs:
         azureSubscription: 'efm-onlineshop-api'
         appName: '$(AZURE_WEBAPP_NAME)'
-        package: '$(Pipeline.Workspace)/webapp/efm.zip'
+        package: '$(Pipeline.Workspace)/webapp'
         appType: 'webApp'
         deploymentMethod: 'zipDeploy'
         enableCustomDeployment: true
