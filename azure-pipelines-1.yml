@@ -56,11 +56,10 @@ stages:
         arguments: '--configuration $(CONFIGURATION) --output "$(Build.ArtifactStagingDirectory)/publish"'
 
     # ZIP THE PUBLISH OUTPUT
-# PUBLISH THE PUBLISH FOLDER (NOT A ZIP)
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/efm.zip'
         ArtifactName: 'webapp'
         publishLocation: 'Container'
 
