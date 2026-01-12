@@ -81,14 +81,14 @@ stages:
         artifactName: 'webapp'
         downloadPath: '$(Pipeline.Workspace)'
 
-    # DEPLOY THE ZIP PACKAGE
     - task: AzureWebApp@1
       displayName: 'Deploy to Azure WebApp'
       inputs:
         azureSubscription: 'efm-onlineshop-api'
         appName: '$(AZURE_WEBAPP_NAME)'
-        package: '$(Pipeline.Workspace)/webapp'
+        package: '$(Pipeline.Workspace)/webapp/publish'
         appType: 'webApp'
         deploymentMethod: 'zipDeploy'
         enableCustomDeployment: true
         takeAppOfflineFlag: true
+
